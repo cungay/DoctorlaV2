@@ -1,0 +1,98 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.3.32811.315
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{C94600E8-EB79-4C7E-8CA1-4A0F7207B559}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Libraries", "Libraries", "{4CF31FD7-766E-44DB-B317-FC049782BFFE}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Presentation", "Presentation", "{27C84EAA-9ED0-464F-81A3-6F9FC69BF779}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctorla.Application", "src\Libraries\Doctorla.Application\Doctorla.Application.csproj", "{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctorla.Domain", "src\Libraries\Doctorla.Domain\Doctorla.Domain.csproj", "{32BE1B90-311C-4750-9F1E-BF663B836526}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctorla.Shared", "src\Libraries\Doctorla.Shared\Doctorla.Shared.csproj", "{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctorla.Infrastructure", "src\Libraries\Doctorla.Infrastructure\Doctorla.Infrastructure.csproj", "{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Doctorla.Host", "src\Presentation\Doctorla.Host\Doctorla.Host.csproj", "{7AB15B01-53A6-419D-8818-19F4CB4D354D}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ref", "ref", "{BF14F14C-268F-41C1-8336-31F63AB50936}"
+	ProjectSection(SolutionItems) = preProject
+		ref\Serilog.Enrichers.ClientInfo.dll = ref\Serilog.Enrichers.ClientInfo.dll
+		ref\ServiceStack.Api.OpenApi.dll = ref\ServiceStack.Api.OpenApi.dll
+		ref\ServiceStack.Authentication.MongoDb.dll = ref\ServiceStack.Authentication.MongoDb.dll
+		ref\ServiceStack.Aws.dll = ref\ServiceStack.Aws.dll
+		ref\ServiceStack.Azure.dll = ref\ServiceStack.Azure.dll
+		ref\ServiceStack.Client.dll = ref\ServiceStack.Client.dll
+		ref\ServiceStack.Common.dll = ref\ServiceStack.Common.dll
+		ref\ServiceStack.dll = ref\ServiceStack.dll
+		ref\ServiceStack.HttpClient.dll = ref\ServiceStack.HttpClient.dll
+		ref\ServiceStack.Interfaces.dll = ref\ServiceStack.Interfaces.dll
+		ref\ServiceStack.Kestrel.dll = ref\ServiceStack.Kestrel.dll
+		ref\ServiceStack.Logging.Log4Net.dll = ref\ServiceStack.Logging.Log4Net.dll
+		ref\ServiceStack.Logging.NLog.dll = ref\ServiceStack.Logging.NLog.dll
+		ref\ServiceStack.Logging.Serilog.dll = ref\ServiceStack.Logging.Serilog.dll
+		ref\ServiceStack.Logging.Slack.dll = ref\ServiceStack.Logging.Slack.dll
+		ref\ServiceStack.MsgPack.dll = ref\ServiceStack.MsgPack.dll
+		ref\ServiceStack.Mvc.dll = ref\ServiceStack.Mvc.dll
+		ref\ServiceStack.OrmLite.dll = ref\ServiceStack.OrmLite.dll
+		ref\ServiceStack.OrmLite.Firebird.dll = ref\ServiceStack.OrmLite.Firebird.dll
+		ref\ServiceStack.OrmLite.MySql.dll = ref\ServiceStack.OrmLite.MySql.dll
+		ref\ServiceStack.OrmLite.MySqlConnector.dll = ref\ServiceStack.OrmLite.MySqlConnector.dll
+		ref\ServiceStack.OrmLite.PostgreSQL.dll = ref\ServiceStack.OrmLite.PostgreSQL.dll
+		ref\ServiceStack.OrmLite.Sqlite.dll = ref\ServiceStack.OrmLite.Sqlite.dll
+		ref\ServiceStack.OrmLite.SqlServer.Data.dll = ref\ServiceStack.OrmLite.SqlServer.Data.dll
+		ref\ServiceStack.OrmLite.SqlServer.dll = ref\ServiceStack.OrmLite.SqlServer.dll
+		ref\ServiceStack.ProtoBuf.dll = ref\ServiceStack.ProtoBuf.dll
+		ref\ServiceStack.RabbitMq.dll = ref\ServiceStack.RabbitMq.dll
+		ref\ServiceStack.Redis.dll = ref\ServiceStack.Redis.dll
+		ref\ServiceStack.Server.dll = ref\ServiceStack.Server.dll
+		ref\ServiceStack.Text.dll = ref\ServiceStack.Text.dll
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32BE1B90-311C-4750-9F1E-BF663B836526}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32BE1B90-311C-4750-9F1E-BF663B836526}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32BE1B90-311C-4750-9F1E-BF663B836526}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32BE1B90-311C-4750-9F1E-BF663B836526}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AB15B01-53A6-419D-8818-19F4CB4D354D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AB15B01-53A6-419D-8818-19F4CB4D354D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AB15B01-53A6-419D-8818-19F4CB4D354D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AB15B01-53A6-419D-8818-19F4CB4D354D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{4CF31FD7-766E-44DB-B317-FC049782BFFE} = {C94600E8-EB79-4C7E-8CA1-4A0F7207B559}
+		{27C84EAA-9ED0-464F-81A3-6F9FC69BF779} = {C94600E8-EB79-4C7E-8CA1-4A0F7207B559}
+		{21E056D2-30E7-4FE4-8F1F-B5A5FB7F99E1} = {4CF31FD7-766E-44DB-B317-FC049782BFFE}
+		{32BE1B90-311C-4750-9F1E-BF663B836526} = {4CF31FD7-766E-44DB-B317-FC049782BFFE}
+		{AEA43F2F-6AC7-47CE-8B65-3E1B0EF4E920} = {4CF31FD7-766E-44DB-B317-FC049782BFFE}
+		{1F4E1CA9-B90A-4B6D-BDC5-6E2E3C15B04C} = {4CF31FD7-766E-44DB-B317-FC049782BFFE}
+		{7AB15B01-53A6-419D-8818-19F4CB4D354D} = {27C84EAA-9ED0-464F-81A3-6F9FC69BF779}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A337FE73-EF6A-4C46-B625-AA111B05EFB2}
+	EndGlobalSection
+EndGlobal
