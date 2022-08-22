@@ -7,12 +7,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="AppHost.cs" />
     <Compile Remove="Configure.AppHost.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="10.4.0" />
+        <PackageReference Include="Hangfire.Console.Extensions.Serilog" Version="1.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="6.0.0" />
+        <PackageReference Include="Serilog.AspNetCore" Version="5.0.0" />
+    </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\Libraries\Doctorla.Application\Doctorla.Application.csproj" />
@@ -20,36 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Reference Include="ServiceStack">
-      <HintPath>..\..\..\ref\ServiceStack.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Api.OpenApi">
-      <HintPath>..\..\..\ref\ServiceStack.Api.OpenApi.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Client">
-      <HintPath>..\..\..\ref\ServiceStack.Client.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Common">
-      <HintPath>..\..\..\ref\ServiceStack.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Interfaces">
-      <HintPath>..\..\..\ref\ServiceStack.Interfaces.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.OrmLite">
-      <HintPath>..\..\..\ref\ServiceStack.OrmLite.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.OrmLite.SqlServer">
-      <HintPath>..\..\..\ref\ServiceStack.OrmLite.SqlServer.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Redis">
-      <HintPath>..\..\..\ref\ServiceStack.Redis.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Server">
-      <HintPath>..\..\..\ref\ServiceStack.Server.dll</HintPath>
-    </Reference>
-    <Reference Include="ServiceStack.Text">
-      <HintPath>..\..\..\ref\ServiceStack.Text.dll</HintPath>
-    </Reference>
+    
   </ItemGroup>
 
 </Project>
