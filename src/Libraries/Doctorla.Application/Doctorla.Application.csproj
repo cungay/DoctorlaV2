@@ -3,6 +3,8 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>FSH.WebApi.Application</RootNamespace>
+        <AssemblyName>FSH.WebApi.Application</AssemblyName>
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
@@ -13,7 +15,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <!--<PackageReference Include="Ardalis.Specification" Version="6.0.1" />-->
+        <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
         <PackageReference Include="Mapster" Version="7.3.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
