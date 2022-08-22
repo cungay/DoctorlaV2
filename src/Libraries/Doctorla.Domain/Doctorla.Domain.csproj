@@ -1,27 +1,23 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-  <PropertyGroup>
-    <TargetFramework>net6.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="ServiceStack">
-      <HintPath>..\..\..\ref\ServiceStack.dll</HintPath>
-    </Reference>
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Identity\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="MediatR" Version="10.0.1" />
-  </ItemGroup>
-
+﻿<Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <RootNamespace>Doctorla.Domain</RootNamespace>
+        <AssemblyName>Doctorla.Domain</AssemblyName>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <GenerateDocumentationFile>True</GenerateDocumentationFile>
+    </PropertyGroup>
+    <ItemGroup>
+      <Compile Remove="Catalog\Brand.cs" />
+      <Compile Remove="Catalog\Product.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="NewId" Version="4.0.0-develop.44+sha.e1e1364" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Catalog\" />
+    </ItemGroup>
 </Project>
