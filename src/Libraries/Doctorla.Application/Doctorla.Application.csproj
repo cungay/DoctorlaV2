@@ -7,6 +7,14 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="Catalog\**" />
+      <Compile Remove="Dashboard\**" />
+      <EmbeddedResource Remove="Catalog\**" />
+      <EmbeddedResource Remove="Dashboard\**" />
+      <None Remove="Catalog\**" />
+      <None Remove="Dashboard\**" />
+    </ItemGroup>
+    <ItemGroup>
         <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
         <PackageReference Include="Mapster" Version="7.3.0" />
@@ -15,6 +23,7 @@
         <PackageReference Include="Microsoft.Extensions.Localization" Version="6.0.5" />
     </ItemGroup>
     <ItemGroup>
+      <ProjectReference Include="..\Doctorla.Domain\Doctorla.Domain.csproj" />
       <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
     </ItemGroup>
 </Project>
