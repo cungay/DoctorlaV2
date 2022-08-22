@@ -1,14 +1,8 @@
-﻿using Doctorla.Shared.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Doctorla.Shared.Events;
 
-namespace Doctorla.Domain.Common.Contracts
+namespace Doctorla.Domain.Common.Contracts;
+
+public abstract class DomainEvent : IEvent
 {
-    public abstract class DomainEvent : IEvent
-    {
-        public DateTime TriggeredOn { get; protected set; } = DateTime.UtcNow;
-    }
+    public DateTime TriggeredOn { get; protected set; } = DateTime.UtcNow;
 }
