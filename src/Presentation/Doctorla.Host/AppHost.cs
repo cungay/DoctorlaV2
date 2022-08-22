@@ -14,8 +14,6 @@ public class AppHost : AppHostBase, IHostingStartup
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureServices((context, services) =>
         {
-            var db = Configuration.GetSection("DatabaseSettings").Get<DatabaseSettings>();
-
             // Configure ASP.NET Core IOC Dependencies
         });
 
