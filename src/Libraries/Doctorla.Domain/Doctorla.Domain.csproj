@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\..\ref\ServiceStack.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

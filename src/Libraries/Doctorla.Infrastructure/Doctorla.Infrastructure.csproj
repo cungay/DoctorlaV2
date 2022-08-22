@@ -6,4 +6,19 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <PackageReference Include="System.Data.SqlClient" Version="4.8.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Doctorla.Application\Doctorla.Application.csproj" />
+    <ProjectReference Include="..\Doctorla.Domain\Doctorla.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="ServiceStack">
+      <HintPath>..\..\..\ref\ServiceStack.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>

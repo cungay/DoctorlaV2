@@ -6,4 +6,14 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Identity\Roles\" />
+    <Folder Include="Identity\Tokens\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Doctorla.Domain\Doctorla.Domain.csproj" />
+    <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
+  </ItemGroup>
+
 </Project>
