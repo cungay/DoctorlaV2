@@ -1,5 +1,7 @@
-﻿using Doctorla.Application.Common.Persistence;
+﻿using Ardalis.Specification;
+using Doctorla.Application.Common.Persistence;
 using Doctorla.Domain.Common.Contracts;
+using Doctorla.Domain.Common.Events;
 
 namespace Doctorla.Infrastructure.Persistence.Repository;
 
@@ -19,46 +21,55 @@ public class EventAddingRepositoryDecorator<T> : IRepositoryWithEvents<T>
 
     public Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
-    }
-
-    public Task<bool> AnyAsync(CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> CountAsync(CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<List<T>> ListAsync(CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
-    }
-
-    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
-    {
-        throw new NotImplementedException();
+        entity.DomainEvents.Add(EntityCreatedEvent.WithEntity(entity));
+        return _decorated.AddAsync(entity, cancellationToken);
     }
 
     public Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        entity.DomainEvents.Add(EntityUpdatedEvent.WithEntity(entity));
+        return _decorated.UpdateAsync(entity, cancellationToken);
     }
+
+    public Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
+    {
+        entity.DomainEvents.Add(EntityDeletedEvent.WithEntity(entity));
+        return _decorated.DeleteAsync(entity, cancellationToken);
+    }
+
+    public Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
+    {
+        foreach (var entity in entities)
+        {
+            entity.DomainEvents.Add(EntityDeletedEvent.WithEntity(entity));
+        }
+
+        return _decorated.DeleteRangeAsync(entities, cancellationToken);
+    }
+
+    // The rest of the methods are simply forwarded.
+    public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
+        _decorated.SaveChangesAsync(cancellationToken);
+    public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
+        where TId : notnull =>
+        _decorated.GetByIdAsync(id, cancellationToken);
+    public Task<T?> GetBySpecAsync<TSpec>(TSpec specification, CancellationToken cancellationToken = default)
+        where TSpec : ISingleResultSpecification, ISpecification<T> =>
+        _decorated.GetBySpecAsync(specification, cancellationToken);
+    public Task<TResult?> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default) =>
+        _decorated.GetBySpecAsync(specification, cancellationToken);
+    public Task<List<T>> ListAsync(CancellationToken cancellationToken = default) =>
+        _decorated.ListAsync(cancellationToken);
+    public Task<List<T>> ListAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
+        _decorated.ListAsync(specification, cancellationToken);
+    public Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default) =>
+        _decorated.ListAsync(specification, cancellationToken);
+    public Task<bool> AnyAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
+        _decorated.AnyAsync(specification, cancellationToken);
+    public Task<bool> AnyAsync(CancellationToken cancellationToken = default) =>
+        _decorated.AnyAsync(cancellationToken);
+    public Task<int> CountAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
+        _decorated.CountAsync(specification, cancellationToken);
+    public Task<int> CountAsync(CancellationToken cancellationToken = default) =>
+        _decorated.CountAsync(cancellationToken);
 }
