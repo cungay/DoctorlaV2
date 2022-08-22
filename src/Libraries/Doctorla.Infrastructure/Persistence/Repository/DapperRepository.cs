@@ -1,11 +1,11 @@
 using System.Data;
 using Dapper;
 using Finbuckle.MultiTenant.EntityFrameworkCore;
-using FSH.WebApi.Application.Common.Persistence;
-using FSH.WebApi.Domain.Common.Contracts;
-using FSH.WebApi.Infrastructure.Persistence.Context;
+using Doctorla.Application.Common.Persistence;
+using Doctorla.Domain.Common.Contracts;
+using Doctorla.Infrastructure.Persistence.Context;
 
-namespace FSH.WebApi.Infrastructure.Persistence.Repository;
+namespace Doctorla.Infrastructure.Persistence.Repository;
 
 public class DapperRepository : IDapperRepository
 {
