@@ -6,16 +6,15 @@ namespace Doctorla.Infrastructure.Auth.Permissions;
 
 internal class PermissionAuthorizationHandler : AuthorizationHandler<PermissionRequirement>
 {
-    private readonly IUserService _userService;
+    private readonly IUserService userService = null;
 
     public PermissionAuthorizationHandler(IUserService userService) =>
-        _userService = userService;
+        this.userService = userService;
 
     protected override async Task HandleRequirementAsync(AuthorizationHandlerContext context, PermissionRequirement requirement)
     {
         if (context.User?.GetUserId() is { } userId &&
-            await _userService.HasPermissionAsync(userId, requirement.Permission))
-        {
+            await userService.HasPermissionAsync(userId, requirement.Permission)) {
             context.Succeed(requirement);
         }
     }
