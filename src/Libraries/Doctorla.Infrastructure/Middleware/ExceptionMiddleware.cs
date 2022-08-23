@@ -10,18 +10,18 @@ namespace Doctorla.Infrastructure.Middleware;
 
 internal class ExceptionMiddleware : IMiddleware
 {
-    private readonly ICurrentUser _currentUser;
-    private readonly IStringLocalizer _t;
-    private readonly ISerializerService _jsonSerializer;
+    private readonly ICurrentUser currentUser = null;
+    private readonly IStringLocalizer localizer = null;
+    private readonly ISerializerService jsonSerializer = null;
 
     public ExceptionMiddleware(
         ICurrentUser currentUser,
         IStringLocalizer<ExceptionMiddleware> localizer,
         ISerializerService jsonSerializer)
     {
-        _currentUser = currentUser;
-        _t = localizer;
-        _jsonSerializer = jsonSerializer;
+        this.currentUser = currentUser;
+        this.localizer = localizer;
+        this.jsonSerializer = jsonSerializer;
     }
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
@@ -32,9 +32,9 @@ internal class ExceptionMiddleware : IMiddleware
         }
         catch (Exception exception)
         {
-            string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
-            var userId = _currentUser.GetUserId();
-            string tenant = _currentUser.GetTenant() ?? string.Empty;
+            string email = currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
+            var userId = currentUser.GetUserId();
+            string tenant = currentUser.GetTenant() ?? string.Empty;
             if (userId != Guid.Empty) LogContext.PushProperty("UserId", userId);
             LogContext.PushProperty("UserEmail", email);
             if (!string.IsNullOrEmpty(tenant)) LogContext.PushProperty("Tenant", tenant);
@@ -46,7 +46,7 @@ internal class ExceptionMiddleware : IMiddleware
                 Source = exception.TargetSite?.DeclaringType?.FullName,
                 Exception = exception.Message.Trim(),
                 ErrorId = errorId,
-                SupportMessage = _t["Provide the ErrorId {0} to the support team for further analysis.", errorId]
+                SupportMessage = localizer["Provide the ErrorId {0} to the support team for further analysis.", errorId]
             };
             errorResult.Messages.Add(exception.Message);
             if (exception is not CustomException && exception.InnerException != null)
@@ -83,7 +83,7 @@ internal class ExceptionMiddleware : IMiddleware
             {
                 response.ContentType = "application/json";
                 response.StatusCode = errorResult.StatusCode;
-                await response.WriteAsync(_jsonSerializer.Serialize(errorResult));
+                await response.WriteAsync(jsonSerializer.Serialize(errorResult));
             }
             else
             {
