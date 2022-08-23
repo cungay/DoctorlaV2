@@ -5,54 +5,54 @@ namespace Doctorla.Infrastructure.Auth;
 
 public class CurrentUser : ICurrentUser, ICurrentUserInitializer
 {
-    private ClaimsPrincipal? _user;
+    private ClaimsPrincipal? user = null;
 
-    public string? Name => _user?.Identity?.Name;
+    public string? Name => user?.Identity?.Name;
 
-    private Guid _userId = Guid.Empty;
+    private Guid cachedUserId = Guid.Empty;
 
     public Guid GetUserId() =>
         IsAuthenticated()
-            ? Guid.Parse(_user?.GetUserId() ?? Guid.Empty.ToString())
-            : _userId;
+            ? Guid.Parse(user?.GetUserId() ?? Guid.Empty.ToString())
+            : cachedUserId;
 
     public string? GetUserEmail() =>
         IsAuthenticated()
-            ? _user!.GetEmail()
+            ? user!.GetEmail()
             : string.Empty;
 
     public bool IsAuthenticated() =>
-        _user?.Identity?.IsAuthenticated is true;
+        user?.Identity?.IsAuthenticated is true;
 
     public bool IsInRole(string role) =>
-        _user?.IsInRole(role) is true;
+        user?.IsInRole(role) is true;
 
     public IEnumerable<Claim>? GetUserClaims() =>
-        _user?.Claims;
+        user?.Claims;
 
     public string? GetTenant() =>
-        IsAuthenticated() ? _user?.GetTenant() : string.Empty;
+        IsAuthenticated() ? user?.GetTenant() : string.Empty;
 
     public void SetCurrentUser(ClaimsPrincipal user)
     {
-        if (_user != null)
+        if (user != null)
         {
             throw new Exception("Method reserved for in-scope initialization");
         }
 
-        _user = user;
+        this.user = user;
     }
 
     public void SetCurrentUserId(string userId)
     {
-        if (_userId != Guid.Empty)
+        if (cachedUserId != Guid.Empty)
         {
             throw new Exception("Method reserved for in-scope initialization");
         }
 
         if (!string.IsNullOrEmpty(userId))
         {
-            _userId = Guid.Parse(userId);
+            cachedUserId = Guid.Parse(userId);
         }
     }
 }
