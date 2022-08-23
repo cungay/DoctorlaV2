@@ -6,7 +6,6 @@ namespace Doctorla.Infrastructure.Identity;
 
 internal static class Startup
 {
-    
     internal static IServiceCollection AddIdentity(this IServiceCollection services) =>
         services
             .AddIdentity<ApplicationUser, ApplicationRole>(options =>
@@ -21,5 +20,4 @@ internal static class Startup
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders()
             .Services;
-    
 }
