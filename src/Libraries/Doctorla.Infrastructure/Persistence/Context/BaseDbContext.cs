@@ -36,7 +36,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // QueryFilters need to be applied before base.OnModelCreating
-        modelBuilder.AppendGlobalQueryFilter<ISoftDelete>(s => s.DeletedOn == null);
+        modelBuilder.AppendGlobalQueryFilter<ISoftDeletedEntity>(s => s.DeletedOn == null);
 
         base.OnModelCreating(modelBuilder);
 
@@ -92,7 +92,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
                     break;
 
                 case EntityState.Deleted:
-                    if (entry.Entity is ISoftDelete softDelete)
+                    if (entry.Entity is ISoftDeletedEntity softDelete)
                     {
                         softDelete.DeletedBy = userId;
                         softDelete.DeletedOn = DateTime.UtcNow;
@@ -144,7 +144,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
                         break;
 
                     case EntityState.Modified:
-                        if (property.IsModified && entry.Entity is ISoftDelete && property.OriginalValue == null && property.CurrentValue != null)
+                        if (property.IsModified && entry.Entity is ISoftDeletedEntity && property.OriginalValue == null && property.CurrentValue != null)
                         {
                             trailEntry.ChangedColumns.Add(propertyName);
                             trailEntry.TrailType = TrailType.Delete;
