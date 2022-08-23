@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Doctorla.Infrastructure.Multitenancy;
 
-public class TenantDbContext : EFCoreStoreDbContext<FSHTenantInfo>
+public class TenantDbContext : EFCoreStoreDbContext<DocTenantInfo>
 {
     public TenantDbContext(DbContextOptions<TenantDbContext> options)
         : base(options)
@@ -15,6 +15,6 @@ public class TenantDbContext : EFCoreStoreDbContext<FSHTenantInfo>
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<FSHTenantInfo>().ToTable("Tenants", SchemaNames.MultiTenancy);
+        modelBuilder.Entity<DocTenantInfo>().ToTable("Tenants", SchemaNames.MultiTenancy);
     }
 }
