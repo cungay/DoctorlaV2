@@ -9,13 +9,13 @@ namespace Doctorla.Infrastructure.Mailing;
 
 public class SmtpMailService : IMailService
 {
-    private readonly MailSettings _settings;
-    private readonly ILogger<SmtpMailService> _logger;
+    private readonly MailSettings settings = null;
+    private readonly ILogger<SmtpMailService> logger = null;
 
     public SmtpMailService(IOptions<MailSettings> settings, ILogger<SmtpMailService> logger)
     {
-        _settings = settings.Value;
-        _logger = logger;
+        this.settings = settings.Value;
+        this.logger = logger;
     }
 
     public async Task SendAsync(MailRequest request, CancellationToken cancellationToken = default)
@@ -25,7 +25,7 @@ public class SmtpMailService : IMailService
             var email = new MimeMessage();
 
             // From
-            email.From.Add(new MailboxAddress(_settings.DisplayName, request.From ?? _settings.From));
+            email.From.Add(new MailboxAddress(settings.DisplayName, request.From ?? settings.From));
 
             // To
             foreach (string address in request.To)
@@ -58,7 +58,7 @@ public class SmtpMailService : IMailService
 
             // Content
             var builder = new BodyBuilder();
-            email.Sender = new MailboxAddress(request.DisplayName ?? _settings.DisplayName, request.From ?? _settings.From);
+            email.Sender = new MailboxAddress(request.DisplayName ?? settings.DisplayName, request.From ?? settings.From);
             email.Subject = request.Subject;
             builder.HtmlBody = request.Body;
 
@@ -72,14 +72,14 @@ public class SmtpMailService : IMailService
             email.Body = builder.ToMessageBody();
 
             using var smtp = new SmtpClient();
-            await smtp.ConnectAsync(_settings.Host, _settings.Port, SecureSocketOptions.StartTls, cancellationToken);
-            await smtp.AuthenticateAsync(_settings.UserName, _settings.Password, cancellationToken);
+            await smtp.ConnectAsync(settings.Host, settings.Port, SecureSocketOptions.StartTls, cancellationToken);
+            await smtp.AuthenticateAsync(settings.UserName, settings.Password, cancellationToken);
             await smtp.SendAsync(email, cancellationToken);
             await smtp.DisconnectAsync(true, cancellationToken);
         }
         catch (Exception ex)
         {
-            _logger.LogError(ex, ex.Message);
+            logger.LogError(ex, ex.Message);
         }
     }
 }
