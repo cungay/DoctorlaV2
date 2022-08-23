@@ -124,7 +124,7 @@ internal partial class UserService : IUserService
             .Where(u => u.Id == userId)
             .FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
 
         return user.Adapt<UserDetailsDto>();
     }
@@ -133,12 +133,12 @@ internal partial class UserService : IUserService
     {
         var user = await userManager.Users.Where(u => u.Id == request.UserId).FirstOrDefaultAsync(cancellationToken);
 
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
 
         bool isAdmin = await userManager.IsInRoleAsync(user, DocRoles.Admin);
         if (isAdmin)
         {
-            throw new ConflictException(_t["Administrators Profile's Status cannot be toggled"]);
+            throw new ConflictException(localizer["Administrators Profile's Status cannot be toggled"]);
         }
 
         user.IsActive = request.ActivateUser;
