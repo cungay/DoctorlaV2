@@ -1,5 +1,3 @@
-//using Ardalis.Specification;
-//using Ardalis.Specification.EntityFrameworkCore;
 using Finbuckle.MultiTenant;
 using Doctorla.Application.Common.Caching;
 using Doctorla.Application.Common.Events;
@@ -8,7 +6,6 @@ using Doctorla.Application.Common.FileStorage;
 using Doctorla.Application.Common.Interfaces;
 using Doctorla.Application.Common.Mailing;
 using Doctorla.Application.Common.Models;
-using Doctorla.Application.Common.Specification;
 using Doctorla.Application.Identity.Users;
 using Doctorla.Domain.Identity;
 using Doctorla.Infrastructure.Auth;
@@ -27,7 +24,7 @@ internal partial class UserService : IUserService
     private readonly SignInManager<ApplicationUser> _signInManager;
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly RoleManager<ApplicationRole> _roleManager;
-    //private readonly ApplicationDbContext _db;
+    private readonly ApplicationDbContext _db;
     private readonly IStringLocalizer _t;
     private readonly IJobService _jobService;
     private readonly IMailService _mailService;
@@ -43,7 +40,7 @@ internal partial class UserService : IUserService
         SignInManager<ApplicationUser> signInManager,
         UserManager<ApplicationUser> userManager,
         RoleManager<ApplicationRole> roleManager,
-        //ApplicationDbContext db,
+        ApplicationDbContext db,
         IStringLocalizer<UserService> localizer,
         IJobService jobService,
         IMailService mailService,
@@ -58,7 +55,7 @@ internal partial class UserService : IUserService
         _signInManager = signInManager;
         _userManager = userManager;
         _roleManager = roleManager;
-        //_db = db;
+        _db = db;
         _t = localizer;
         _jobService = jobService;
         _mailService = mailService;
