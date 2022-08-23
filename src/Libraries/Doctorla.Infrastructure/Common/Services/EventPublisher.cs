@@ -7,16 +7,16 @@ namespace Doctorla.Infrastructure.Common.Services;
 
 public class EventPublisher : IEventPublisher
 {
-    private readonly ILogger<EventPublisher> _logger;
-    private readonly IPublisher _mediator;
+    private readonly ILogger<EventPublisher> logger = null;
+    private readonly IPublisher mediator = null;
 
     public EventPublisher(ILogger<EventPublisher> logger, IPublisher mediator) =>
-        (_logger, _mediator) = (logger, mediator);
+        (this.logger, this.mediator) = (logger, mediator);
 
     public Task PublishAsync(IEvent @event)
     {
-        _logger.LogInformation("Publishing Event : {event}", @event.GetType().Name);
-        return _mediator.Publish(CreateEventNotification(@event));
+        logger.LogInformation("Publishing Event : {event}", @event.GetType().Name);
+        return mediator.Publish(CreateEventNotification(@event));
     }
 
     private INotification CreateEventNotification(IEvent @event) =>
