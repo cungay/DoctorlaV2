@@ -5,7 +5,7 @@ namespace Doctorla.Host.Controllers.Multitenancy;
 public class TenantsController : VersionNeutralApiController
 {
     [HttpGet]
-    [MustHavePermission(FSHAction.View, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.View, DocResource.Tenants)]
     [OpenApiOperation("Get a list of all tenants.", "")]
     public Task<List<TenantDto>> GetListAsync()
     {
@@ -13,7 +13,7 @@ public class TenantsController : VersionNeutralApiController
     }
 
     [HttpGet("{id}")]
-    [MustHavePermission(FSHAction.View, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.View, DocResource.Tenants)]
     [OpenApiOperation("Get tenant details.", "")]
     public Task<TenantDto> GetAsync(string id)
     {
@@ -21,7 +21,7 @@ public class TenantsController : VersionNeutralApiController
     }
 
     [HttpPost]
-    [MustHavePermission(FSHAction.Create, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.Create, DocResource.Tenants)]
     [OpenApiOperation("Create a new tenant.", "")]
     public Task<string> CreateAsync(CreateTenantRequest request)
     {
@@ -29,27 +29,27 @@ public class TenantsController : VersionNeutralApiController
     }
 
     [HttpPost("{id}/activate")]
-    [MustHavePermission(FSHAction.Update, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.Update, DocResource.Tenants)]
     [OpenApiOperation("Activate a tenant.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    [ApiConventionMethod(typeof(DocApiConventions), nameof(DocApiConventions.Register))]
     public Task<string> ActivateAsync(string id)
     {
         return Mediator.Send(new ActivateTenantRequest(id));
     }
 
     [HttpPost("{id}/deactivate")]
-    [MustHavePermission(FSHAction.Update, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.Update, DocResource.Tenants)]
     [OpenApiOperation("Deactivate a tenant.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    [ApiConventionMethod(typeof(DocApiConventions), nameof(DocApiConventions.Register))]
     public Task<string> DeactivateAsync(string id)
     {
         return Mediator.Send(new DeactivateTenantRequest(id));
     }
 
     [HttpPost("{id}/upgrade")]
-    [MustHavePermission(FSHAction.UpgradeSubscription, FSHResource.Tenants)]
+    [MustHavePermission(DocAction.UpgradeSubscription, DocResource.Tenants)]
     [OpenApiOperation("Upgrade a tenant's subscription.", "")]
-    [ApiConventionMethod(typeof(FSHApiConventions), nameof(FSHApiConventions.Register))]
+    [ApiConventionMethod(typeof(DocApiConventions), nameof(DocApiConventions.Register))]
     public async Task<ActionResult<string>> UpgradeSubscriptionAsync(string id, UpgradeSubscriptionRequest request)
     {
         return id != request.TenantId
