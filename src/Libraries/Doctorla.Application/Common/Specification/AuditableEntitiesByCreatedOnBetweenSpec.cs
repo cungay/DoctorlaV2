@@ -1,8 +1,13 @@
-﻿namespace Doctorla.Application.Common.Specification;
+﻿using ServiceStack.OrmLite;
 
-public class AuditableEntitiesByCreatedOnBetweenSpec<T> : Specification<T>
+namespace Doctorla.Application.Common.Specification;
+
+public class AuditableEntitiesByCreatedOnBetweenSpec<T> : SqlExpression<T>
     where T : AuditableEntity
 {
-    public AuditableEntitiesByCreatedOnBetweenSpec(DateTime from, DateTime until) =>
-        Query.Where(e => e.CreatedOn >= from && e.CreatedOn <= until);
+    public AuditableEntitiesByCreatedOnBetweenSpec(DateTime from, DateTime until) : base(dialectProvider: SqlServer2019Dialect.Provider)
+    {
+        this.Where<T>(e => e.CreatedOn >= from && e.CreatedOn <= until);
+        //Query.Where(e => e.CreatedOn >= from && e.CreatedOn <= until);
+    }
 }

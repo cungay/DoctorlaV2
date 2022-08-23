@@ -2,40 +2,39 @@ using Finbuckle.MultiTenant;
 using Doctorla.Infrastructure.Persistence.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace Doctorla.Infrastructure.Persistence.Initialization;
 
 internal class ApplicationDbInitializer
 {
-    private readonly ApplicationDbContext _dbContext;
-    private readonly ITenantInfo _currentTenant;
-    private readonly ApplicationDbSeeder _dbSeeder;
-    private readonly ILogger<ApplicationDbInitializer> _logger;
+    private readonly IDbConnectionFactory dbContext = null;
+    private readonly ITenantInfo currentTenant = null;
+    private readonly ApplicationDbSeeder dbSeeder = null;
+    private readonly ILogger<ApplicationDbInitializer> logger = null;
 
-    public ApplicationDbInitializer(ApplicationDbContext dbContext, ITenantInfo currentTenant, ApplicationDbSeeder dbSeeder, ILogger<ApplicationDbInitializer> logger)
+    public ApplicationDbInitializer(IDbConnectionFactory dbContext, ITenantInfo currentTenant, ApplicationDbSeeder dbSeeder, ILogger<ApplicationDbInitializer> logger)
     {
-        _dbContext = dbContext;
-        _currentTenant = currentTenant;
-        _dbSeeder = dbSeeder;
-        _logger = logger;
+        this.dbContext = dbContext;
+        this.currentTenant = currentTenant;
+        this.dbSeeder = dbSeeder;
+        this.logger = logger;
     }
 
     public async Task InitializeAsync(CancellationToken cancellationToken)
     {
-        if (_dbContext.Database.GetMigrations().Any())
+        try
         {
-            if ((await _dbContext.Database.GetPendingMigrationsAsync(cancellationToken)).Any())
-            {
-                _logger.LogInformation("Applying Migrations for '{tenantId}' tenant.", _currentTenant.Id);
-                await _dbContext.Database.MigrateAsync(cancellationToken);
-            }
-
-            if (await _dbContext.Database.CanConnectAsync(cancellationToken))
-            {
-                _logger.LogInformation("Connection to {tenantId}'s Database Succeeded.", _currentTenant.Id);
-
-                await _dbSeeder.SeedDatabaseAsync(_dbContext, cancellationToken);
-            }
+            using var db = dbContext.OpenDbConnection();
         }
+        catch (Exception)
+        {
+            logger.LogInformation("Connection to {tenantId}'s Database Failed.", currentTenant.Id);
+            throw;
+        }
+
+        logger.LogInformation("Connection to {tenantId}'s Database Succeeded.", currentTenant.Id);
+        await dbSeeder.SeedDatabaseAsync(dbContext, cancellationToken);
     }
 }

@@ -18,7 +18,7 @@ internal class RoleService : IRoleService
 {
     private readonly RoleManager<ApplicationRole> _roleManager;
     private readonly UserManager<ApplicationUser> _userManager;
-    private readonly ApplicationDbContext _db;
+    //private readonly ApplicationDbContext _db;
     private readonly IStringLocalizer _t;
     private readonly ICurrentUser _currentUser;
     private readonly ITenantInfo _currentTenant;
@@ -27,7 +27,7 @@ internal class RoleService : IRoleService
     public RoleService(
         RoleManager<ApplicationRole> roleManager,
         UserManager<ApplicationUser> userManager,
-        ApplicationDbContext db,
+        //ApplicationDbContext db,
         IStringLocalizer<RoleService> localizer,
         ICurrentUser currentUser,
         ITenantInfo currentTenant,
@@ -35,7 +35,7 @@ internal class RoleService : IRoleService
     {
         _roleManager = roleManager;
         _userManager = userManager;
-        _db = db;
+        //_db = db;
         _t = localizer;
         _currentUser = currentUser;
         _currentTenant = currentTenant;
@@ -54,19 +54,27 @@ internal class RoleService : IRoleService
             is ApplicationRole existingRole
             && existingRole.Id != excludeId;
 
-    public async Task<RoleDto> GetByIdAsync(string id) =>
-        await _db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
-            ? role.Adapt<RoleDto>()
-            : throw new NotFoundException(_t["Role Not Found"]);
+
+    public Task<RoleDto> GetByIdAsync(string id)
+    {
+        /*
+        return await _db.Roles.SingleOrDefaultAsync(x => x.Id == id) is { } role
+                ? role.Adapt<RoleDto>()
+                : throw new NotFoundException(_t["Role Not Found"]);
+        */
+        throw new NotFoundException(_t["Role Not Found"]);
+    }
 
     public async Task<RoleDto> GetByIdWithPermissionsAsync(string roleId, CancellationToken cancellationToken)
     {
         var role = await GetByIdAsync(roleId);
 
+        /*
         role.Permissions = await _db.RoleClaims
             .Where(c => c.RoleId == roleId && c.ClaimType == FSHClaims.Permission)
             .Select(c => c.ClaimValue)
             .ToListAsync(cancellationToken);
+        */
 
         return role;
     }
@@ -148,6 +156,7 @@ internal class RoleService : IRoleService
         {
             if (!string.IsNullOrEmpty(permission))
             {
+                /*
                 _db.RoleClaims.Add(new ApplicationRoleClaim
                 {
                     RoleId = role.Id,
@@ -156,6 +165,7 @@ internal class RoleService : IRoleService
                     CreatedBy = _currentUser.GetUserId().ToString()
                 });
                 await _db.SaveChangesAsync(cancellationToken);
+                */
             }
         }
 

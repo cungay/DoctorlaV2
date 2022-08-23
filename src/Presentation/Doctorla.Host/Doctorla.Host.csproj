@@ -50,6 +50,5 @@
     <ItemGroup>
       <ProjectReference Include="..\..\Libraries\Doctorla.Application\Doctorla.Application.csproj" />
       <ProjectReference Include="..\..\Libraries\Doctorla.Infrastructure\Doctorla.Infrastructure.csproj" />
-      <ProjectReference Include="..\..\Migrators\Migrators.MSSQL\Migrators.MSSQL.csproj" />
     </ItemGroup>
 </Project>

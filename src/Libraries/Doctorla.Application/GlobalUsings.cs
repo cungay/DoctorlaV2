@@ -1,4 +1,4 @@
-global using Ardalis.Specification;
+//global using Ardalis.Specification;
 global using FluentValidation;
 global using Doctorla.Application.Common.Events;
 global using Doctorla.Application.Common.Exceptions;

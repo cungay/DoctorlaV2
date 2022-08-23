@@ -15,7 +15,13 @@
       <None Remove="Dashboard\**" />
     </ItemGroup>
     <ItemGroup>
-        <PackageReference Include="Ardalis.Specification" Version="6.0.1" />
+      <Compile Remove="Common\Models\PaginationResponseExtensions.cs" />
+      <Compile Remove="Common\Persistence\IDapperRepository.cs" />
+      <Compile Remove="Common\Specification\EntitiesByPaginationFilterSpec.cs" />
+      <Compile Remove="Common\Specification\SpecificationBuilderExtensions.cs" />
+    </ItemGroup>
+    <ItemGroup>
+        <!--<PackageReference Include="Ardalis.Specification" Version="6.0.1" />-->
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="10.4.0" />
         <PackageReference Include="Mapster" Version="7.3.0" />
         <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="10.0.1" />
@@ -25,5 +31,16 @@
     <ItemGroup>
       <ProjectReference Include="..\Doctorla.Domain\Doctorla.Domain.csproj" />
       <ProjectReference Include="..\Doctorla.Shared\Doctorla.Shared.csproj" />
+    </ItemGroup>
+    <ItemGroup>
+      <Reference Include="ServiceStack.Common">
+        <HintPath>..\..\..\ref\ServiceStack.Common.dll</HintPath>
+      </Reference>
+      <Reference Include="ServiceStack.OrmLite">
+        <HintPath>..\..\..\ref\ServiceStack.OrmLite.dll</HintPath>
+      </Reference>
+      <Reference Include="ServiceStack.OrmLite.SqlServer.Data">
+        <HintPath>..\..\..\ref\ServiceStack.OrmLite.SqlServer.Data.dll</HintPath>
+      </Reference>
     </ItemGroup>
 </Project>

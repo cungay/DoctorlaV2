@@ -4,12 +4,12 @@ using Doctorla.Infrastructure.Common;
 using Doctorla.Infrastructure.Persistence.ConnectionString;
 using Doctorla.Infrastructure.Persistence.Context;
 using Doctorla.Infrastructure.Persistence.Initialization;
-using Doctorla.Infrastructure.Persistence.Repository;
+//using Doctorla.Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+//using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Serilog;
 
 namespace Doctorla.Infrastructure.Persistence;
@@ -30,12 +30,13 @@ internal static class Startup
             .ValidateOnStart();
 
         return services
+            /*
             .AddDbContext<ApplicationDbContext>((p, m) =>
             {
                 var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
                 m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
             })
-
+            */
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
             .AddTransient<ApplicationDbInitializer>()
             .AddTransient<ApplicationDbSeeder>()
@@ -48,6 +49,7 @@ internal static class Startup
             .AddRepositories();
     }
 
+    /*
     internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider, string connectionString)
     {
         switch (dbProvider.ToLowerInvariant())
@@ -77,11 +79,12 @@ internal static class Startup
                 throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
         }
     }
+    */
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
         // Add Repositories
-        services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
+        //services.AddScoped(typeof(IRepository<>), typeof(ApplicationDbRepository<>));
 
         foreach (var aggregateRootType in
             typeof(IAggregateRoot).Assembly.GetExportedTypes()
@@ -93,9 +96,9 @@ internal static class Startup
                 sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)));
 
             // Decorate the repositories with EventAddingRepositoryDecorators and expose them as IRepositoryWithEvents.
-            services.AddScoped(typeof(IRepositoryWithEvents<>).MakeGenericType(aggregateRootType), sp =>
+            services.AddScoped(typeof(IEntityRepository<>).MakeGenericType(aggregateRootType), sp =>
                 Activator.CreateInstance(
-                    typeof(EventAddingRepositoryDecorator<>).MakeGenericType(aggregateRootType),
+                    typeof(EntityRepository<>).MakeGenericType(aggregateRootType),
                     sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)))
                 ?? throw new InvalidOperationException($"Couldn't create EventAddingRepositoryDecorator for aggregateRootType {aggregateRootType.Name}"));
         }
