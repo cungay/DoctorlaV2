@@ -12,11 +12,11 @@ namespace Doctorla.Infrastructure.Multitenancy;
 
 internal class TenantService : ITenantService
 {
-    private readonly IMultiTenantStore<DocTenantInfo> _tenantStore;
-    private readonly IConnectionStringSecurer _csSecurer;
-    private readonly IDatabaseInitializer _dbInitializer;
-    private readonly IStringLocalizer _t;
-    private readonly DatabaseSettings _dbSettings;
+    private readonly IMultiTenantStore<DocTenantInfo> tenantStore = null;
+    private readonly IConnectionStringSecurer csSecurer = null;
+    private readonly IDatabaseInitializer dbInitializer = null;
+    private readonly IStringLocalizer localizer = null;
+    private readonly DatabaseSettings dbSettings = null;
 
     public TenantService(
         IMultiTenantStore<DocTenantInfo> tenantStore,
@@ -25,25 +25,25 @@ internal class TenantService : ITenantService
         IStringLocalizer<TenantService> localizer,
         IOptions<DatabaseSettings> dbSettings)
     {
-        _tenantStore = tenantStore;
-        _csSecurer = csSecurer;
-        _dbInitializer = dbInitializer;
-        _t = localizer;
-        _dbSettings = dbSettings.Value;
+        this.tenantStore = tenantStore;
+        this.csSecurer = csSecurer;
+        this.dbInitializer = dbInitializer;
+        this.localizer = localizer;
+        this.dbSettings = dbSettings.Value;
     }
 
     public async Task<List<TenantDto>> GetAllAsync()
     {
-        var tenants = (await _tenantStore.GetAllAsync()).Adapt<List<TenantDto>>();
-        tenants.ForEach(t => t.ConnectionString = _csSecurer.MakeSecure(t.ConnectionString));
+        var tenants = (await tenantStore.GetAllAsync()).Adapt<List<TenantDto>>();
+        tenants.ForEach(t => t.ConnectionString = csSecurer.MakeSecure(t.ConnectionString));
         return tenants;
     }
 
     public async Task<bool> ExistsWithIdAsync(string id) =>
-        await _tenantStore.TryGetAsync(id) is not null;
+        await tenantStore.TryGetAsync(id) is not null;
 
     public async Task<bool> ExistsWithNameAsync(string name) =>
-        (await _tenantStore.GetAllAsync()).Any(t => t.Name == name);
+        (await tenantStore.GetAllAsync()).Any(t => t.Name == name);
 
     public async Task<TenantDto> GetByIdAsync(string id) =>
         (await GetTenantInfoAsync(id))
@@ -51,19 +51,19 @@ internal class TenantService : ITenantService
 
     public async Task<string> CreateAsync(CreateTenantRequest request, CancellationToken cancellationToken)
     {
-        if (request.ConnectionString?.Trim() == _dbSettings.ConnectionString.Trim()) request.ConnectionString = string.Empty;
+        if (request.ConnectionString?.Trim() == dbSettings.ConnectionString.Trim()) request.ConnectionString = string.Empty;
 
         var tenant = new DocTenantInfo(request.Id, request.Name, request.ConnectionString, request.AdminEmail, request.Issuer);
-        await _tenantStore.TryAddAsync(tenant);
+        await tenantStore.TryAddAsync(tenant);
 
         // TODO: run this in a hangfire job? will then have to send mail when it's ready or not
         try
         {
-            await _dbInitializer.InitializeApplicationDbForTenantAsync(tenant, cancellationToken);
+            await dbInitializer.InitializeApplicationDbForTenantAsync(tenant, cancellationToken);
         }
         catch
         {
-            await _tenantStore.TryRemoveAsync(request.Id);
+            await tenantStore.TryRemoveAsync(request.Id);
             throw;
         }
 
@@ -76,14 +76,14 @@ internal class TenantService : ITenantService
 
         if (tenant.IsActive)
         {
-            throw new ConflictException(_t["Tenant is already Activated."]);
+            throw new ConflictException(localizer["Tenant is already Activated."]);
         }
 
         tenant.Activate();
 
-        await _tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.TryUpdateAsync(tenant);
 
-        return _t["Tenant {0} is now Activated.", id];
+        return localizer["Tenant {0} is now Activated.", id];
     }
 
     public async Task<string> DeactivateAsync(string id)
@@ -92,14 +92,14 @@ internal class TenantService : ITenantService
 
         if (!tenant.IsActive)
         {
-            throw new ConflictException(_t["Tenant is already Deactivated."]);
+            throw new ConflictException(localizer["Tenant is already Deactivated."]);
         }
 
         tenant.Deactivate();
 
-        await _tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.TryUpdateAsync(tenant);
 
-        return _t[$"Tenant {0} is now Deactivated.", id];
+        return localizer[$"Tenant {0} is now Deactivated.", id];
     }
 
     public async Task<string> UpdateSubscription(string id, DateTime extendedExpiryDate)
@@ -108,12 +108,12 @@ internal class TenantService : ITenantService
 
         tenant.SetValidity(extendedExpiryDate);
 
-        await _tenantStore.TryUpdateAsync(tenant);
+        await tenantStore.TryUpdateAsync(tenant);
 
-        return _t[$"Tenant {0}'s Subscription Upgraded. Now Valid till {1}.", id, tenant.ValidUpto];
+        return localizer[$"Tenant {0}'s Subscription Upgraded. Now Valid till {1}.", id, tenant.ValidUpto];
     }
 
     private async Task<DocTenantInfo> GetTenantInfoAsync(string id) =>
-        await _tenantStore.TryGetAsync(id)
-            ?? throw new NotFoundException(_t["{0} {1} Not Found.", typeof(DocTenantInfo).Name, id]);
+        await tenantStore.TryGetAsync(id)
+            ?? throw new NotFoundException(localizer["{0} {1} Not Found.", typeof(DocTenantInfo).Name, id]);
 }
