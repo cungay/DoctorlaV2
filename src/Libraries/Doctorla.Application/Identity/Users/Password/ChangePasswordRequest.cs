@@ -3,13 +3,15 @@ namespace Doctorla.Application.Identity.Users.Password;
 public class ChangePasswordRequest
 {
     public string Password { get; set; } = default!;
+
     public string NewPassword { get; set; } = default!;
+    
     public string ConfirmNewPassword { get; set; } = default!;
 }
 
 public class ChangePasswordRequestValidator : CustomValidator<ChangePasswordRequest>
 {
-    public ChangePasswordRequestValidator(IStringLocalizer<ChangePasswordRequestValidator> T)
+    public ChangePasswordRequestValidator(IStringLocalizer<ChangePasswordRequestValidator> localizer)
     {
         RuleFor(p => p.Password)
             .NotEmpty();
@@ -19,6 +21,6 @@ public class ChangePasswordRequestValidator : CustomValidator<ChangePasswordRequ
 
         RuleFor(p => p.ConfirmNewPassword)
             .Equal(p => p.NewPassword)
-                .WithMessage(T["Passwords do not match."]);
+                .WithMessage(localizer["Passwords do not match."]);
     }
 }
