@@ -8,10 +8,10 @@ public static class ClaimsPrincipalExtensions
         => principal.FindFirstValue(ClaimTypes.Email);
 
     public static string? GetTenant(this ClaimsPrincipal principal)
-        => principal.FindFirstValue(FSHClaims.Tenant);
+        => principal.FindFirstValue(DocClaims.Tenant);
 
     public static string? GetFullName(this ClaimsPrincipal principal)
-        => principal?.FindFirst(FSHClaims.Fullname)?.Value;
+        => principal?.FindFirst(DocClaims.Fullname)?.Value;
 
     public static string? GetFirstName(this ClaimsPrincipal principal)
         => principal?.FindFirst(ClaimTypes.Name)?.Value;
@@ -26,11 +26,11 @@ public static class ClaimsPrincipalExtensions
        => principal.FindFirstValue(ClaimTypes.NameIdentifier);
 
     public static string? GetImageUrl(this ClaimsPrincipal principal)
-       => principal.FindFirstValue(FSHClaims.ImageUrl);
+       => principal.FindFirstValue(DocClaims.ImageUrl);
 
     public static DateTimeOffset GetExpiration(this ClaimsPrincipal principal) =>
         DateTimeOffset.FromUnixTimeSeconds(Convert.ToInt64(
-            principal.FindFirstValue(FSHClaims.Expiration)));
+            principal.FindFirstValue(DocClaims.Expiration)));
 
     private static string? FindFirstValue(this ClaimsPrincipal principal, string claimType) =>
         principal is null
