@@ -3,6 +3,7 @@ namespace Doctorla.Application.Multitenancy;
 public class UpgradeSubscriptionRequest : IRequest<string>
 {
     public string TenantId { get; set; } = default!;
+
     public DateTime ExtendedExpiryDate { get; set; }
 }
 
@@ -15,10 +16,10 @@ public class UpgradeSubscriptionRequestValidator : CustomValidator<UpgradeSubscr
 
 public class UpgradeSubscriptionRequestHandler : IRequestHandler<UpgradeSubscriptionRequest, string>
 {
-    private readonly ITenantService _tenantService;
+    private readonly ITenantService tenantService = null;
 
-    public UpgradeSubscriptionRequestHandler(ITenantService tenantService) => _tenantService = tenantService;
+    public UpgradeSubscriptionRequestHandler(ITenantService tenantService) => this.tenantService = tenantService;
 
     public Task<string> Handle(UpgradeSubscriptionRequest request, CancellationToken cancellationToken) =>
-        _tenantService.UpdateSubscription(request.TenantId, request.ExtendedExpiryDate);
+        this.tenantService.UpdateSubscription(request.TenantId, request.ExtendedExpiryDate);
 }
