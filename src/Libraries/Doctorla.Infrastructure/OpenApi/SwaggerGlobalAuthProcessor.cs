@@ -23,7 +23,7 @@ internal static class ObjectExtensions
 /// </summary>
 public class SwaggerGlobalAuthProcessor : IOperationProcessor
 {
-    private readonly string _name;
+    private readonly string name = null;
 
     public SwaggerGlobalAuthProcessor()
         : this(JwtBearerDefaults.AuthenticationScheme)
@@ -32,7 +32,7 @@ public class SwaggerGlobalAuthProcessor : IOperationProcessor
 
     public SwaggerGlobalAuthProcessor(string name)
     {
-        _name = name;
+        this.name = name;
     }
 
     public bool Process(OperationProcessorContext context)
@@ -50,7 +50,7 @@ public class SwaggerGlobalAuthProcessor : IOperationProcessor
                 (context.OperationDescription.Operation.Security ??= new List<OpenApiSecurityRequirement>()).Add(new OpenApiSecurityRequirement
                 {
                     {
-                        _name,
+                        name,
                         Array.Empty<string>()
                     }
                 });
