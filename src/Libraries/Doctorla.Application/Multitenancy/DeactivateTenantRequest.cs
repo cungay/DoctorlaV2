@@ -16,10 +16,10 @@ public class DeactivateTenantRequestValidator : CustomValidator<DeactivateTenant
 
 public class DeactivateTenantRequestHandler : IRequestHandler<DeactivateTenantRequest, string>
 {
-    private readonly ITenantService _tenantService;
+    private readonly ITenantService tenantService = null;
 
-    public DeactivateTenantRequestHandler(ITenantService tenantService) => _tenantService = tenantService;
+    public DeactivateTenantRequestHandler(ITenantService tenantService) => this.tenantService = tenantService;
 
     public Task<string> Handle(DeactivateTenantRequest request, CancellationToken cancellationToken) =>
-        _tenantService.DeactivateAsync(request.TenantId);
+        this.tenantService.DeactivateAsync(request.TenantId);
 }
