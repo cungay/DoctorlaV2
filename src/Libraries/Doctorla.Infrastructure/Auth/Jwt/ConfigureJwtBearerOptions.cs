@@ -9,11 +9,11 @@ namespace Doctorla.Infrastructure.Auth.Jwt;
 
 public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions>
 {
-    private readonly JwtSettings _jwtSettings;
+    private readonly JwtSettings jwtSettings = null;
 
     public ConfigureJwtBearerOptions(IOptions<JwtSettings> jwtSettings)
     {
-        _jwtSettings = jwtSettings.Value;
+        this.jwtSettings = jwtSettings.Value;
     }
 
     public void Configure(JwtBearerOptions options)
@@ -28,7 +28,7 @@ public class ConfigureJwtBearerOptions : IConfigureNamedOptions<JwtBearerOptions
             return;
         }
 
-        byte[] key = Encoding.ASCII.GetBytes(_jwtSettings.Key);
+        byte[] key = Encoding.ASCII.GetBytes(jwtSettings.Key);
 
         options.RequireHttpsMetadata = false;
         options.SaveToken = true;
