@@ -9,12 +9,12 @@ namespace Doctorla.Infrastructure.Caching;
 #pragma warning disable CA2254
 public class DistributedCacheService : ICacheService
 {
-    private readonly IDistributedCache _cache;
-    private readonly ILogger<DistributedCacheService> _logger;
-    private readonly ISerializerService _serializer;
+    private readonly IDistributedCache cache = null;
+    private readonly ILogger<DistributedCacheService> logger = null;
+    private readonly ISerializerService serializer = null;
 
     public DistributedCacheService(IDistributedCache cache, ISerializerService serializer, ILogger<DistributedCacheService> logger) =>
-        (_cache, _serializer, _logger) = (cache, serializer, logger);
+        (this.cache, this.serializer, this.logger) = (cache, serializer, logger);
 
     public T? Get<T>(string key) =>
         Get(key) is { } data
@@ -27,7 +27,7 @@ public class DistributedCacheService : ICacheService
 
         try
         {
-            return _cache.Get(key);
+            return cache.Get(key);
         }
         catch
         {
@@ -44,7 +44,7 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            return await _cache.GetAsync(key, token);
+            return await cache.GetAsync(key, token);
         }
         catch
         {
@@ -56,7 +56,7 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            _cache.Refresh(key);
+            cache.Refresh(key);
         }
         catch
         {
@@ -67,8 +67,8 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            await _cache.RefreshAsync(key, token);
-            _logger.LogDebug(string.Format("Cache Refreshed : {0}", key));
+            await cache.RefreshAsync(key, token);
+            logger.LogDebug(string.Format("Cache Refreshed : {0}", key));
         }
         catch
         {
@@ -79,7 +79,7 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            _cache.Remove(key);
+            cache.Remove(key);
         }
         catch
         {
@@ -90,7 +90,7 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            await _cache.RemoveAsync(key, token);
+            await cache.RemoveAsync(key, token);
         }
         catch
         {
@@ -104,8 +104,8 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            _cache.Set(key, value, GetOptions(slidingExpiration));
-            _logger.LogDebug($"Added to Cache : {key}");
+            cache.Set(key, value, GetOptions(slidingExpiration));
+            logger.LogDebug($"Added to Cache : {key}");
         }
         catch
         {
@@ -119,8 +119,8 @@ public class DistributedCacheService : ICacheService
     {
         try
         {
-            await _cache.SetAsync(key, value, GetOptions(slidingExpiration), token);
-            _logger.LogDebug($"Added to Cache : {key}");
+            await cache.SetAsync(key, value, GetOptions(slidingExpiration), token);
+            logger.LogDebug($"Added to Cache : {key}");
         }
         catch
         {
@@ -128,10 +128,10 @@ public class DistributedCacheService : ICacheService
     }
 
     private byte[] Serialize<T>(T item) =>
-        Encoding.Default.GetBytes(_serializer.Serialize(item));
+        Encoding.Default.GetBytes(serializer.Serialize(item));
 
     private T Deserialize<T>(byte[] cachedData) =>
-        _serializer.Deserialize<T>(Encoding.Default.GetString(cachedData));
+        serializer.Deserialize<T>(Encoding.Default.GetString(cachedData));
 
     private static DistributedCacheEntryOptions GetOptions(TimeSpan? slidingExpiration)
     {
