@@ -11,10 +11,10 @@ namespace Doctorla.Infrastructure.Notifications;
 public class SendEventNotificationToClientsHandler<TNotification> : INotificationHandler<TNotification>
     where TNotification : INotification
 {
-    private readonly INotificationSender _notifications;
+    private readonly INotificationSender notifications = null;
 
     public SendEventNotificationToClientsHandler(INotificationSender notifications) =>
-        _notifications = notifications;
+        this.notifications = notifications;
 
     public Task Handle(TNotification notification, CancellationToken cancellationToken)
     {
@@ -25,7 +25,7 @@ public class SendEventNotificationToClientsHandler<TNotification> : INotificatio
             && eventType.IsAssignableTo(typeof(INotificationMessage)))
         {
             INotificationMessage notificationMessage = ((dynamic)notification).Event;
-            return _notifications.SendToAllAsync(notificationMessage, cancellationToken);
+            return notifications.SendToAllAsync(notificationMessage, cancellationToken);
         }
 
         return Task.CompletedTask;
