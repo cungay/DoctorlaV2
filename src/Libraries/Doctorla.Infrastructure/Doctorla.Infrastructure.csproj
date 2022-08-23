@@ -7,7 +7,15 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+      <Compile Remove="Auth\AzureAd\**" />
+      <EmbeddedResource Remove="Auth\AzureAd\**" />
+      <None Remove="Auth\AzureAd\**" />
+    </ItemGroup>
+    <ItemGroup>
       <Compile Remove="Auditing\AuditService.cs" />
+      <Compile Remove="Auditing\AuditTrail.cs" />
+      <Compile Remove="Auditing\Trail.cs" />
+      <Compile Remove="Auditing\TrailType.cs" />
       <Compile Remove="Persistence\Configuration\Auditing.cs" />
       <Compile Remove="Persistence\Configuration\Catalog.cs" />
       <Compile Remove="Persistence\Repository\ApplicationDbRepository.cs" />
@@ -91,6 +99,7 @@
       <ProjectReference Include="..\Doctorla.Application\Doctorla.Application.csproj" />
     </ItemGroup>
     <ItemGroup>
+      <Folder Include="Auditing\" />
       <Folder Include="Persistence\Repository\" />
       <Folder Include="Properties\" />
     </ItemGroup>
