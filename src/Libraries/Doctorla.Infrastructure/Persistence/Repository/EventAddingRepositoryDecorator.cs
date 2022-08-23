@@ -50,26 +50,36 @@ public class EventAddingRepositoryDecorator<T> : IRepositoryWithEvents<T>
     // The rest of the methods are simply forwarded.
     public Task<int> SaveChangesAsync(CancellationToken cancellationToken = default) =>
         _decorated.SaveChangesAsync(cancellationToken);
+
     public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default)
         where TId : notnull =>
         _decorated.GetByIdAsync(id, cancellationToken);
+
     public Task<T?> GetBySpecAsync<TSpec>(TSpec specification, CancellationToken cancellationToken = default)
         where TSpec : ISingleResultSpecification, ISpecification<T> =>
         _decorated.GetBySpecAsync(specification, cancellationToken);
+
     public Task<TResult?> GetBySpecAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default) =>
         _decorated.GetBySpecAsync(specification, cancellationToken);
+
     public Task<List<T>> ListAsync(CancellationToken cancellationToken = default) =>
         _decorated.ListAsync(cancellationToken);
+
     public Task<List<T>> ListAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
         _decorated.ListAsync(specification, cancellationToken);
+
     public Task<List<TResult>> ListAsync<TResult>(ISpecification<T, TResult> specification, CancellationToken cancellationToken = default) =>
         _decorated.ListAsync(specification, cancellationToken);
+
     public Task<bool> AnyAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
         _decorated.AnyAsync(specification, cancellationToken);
+
     public Task<bool> AnyAsync(CancellationToken cancellationToken = default) =>
         _decorated.AnyAsync(cancellationToken);
+
     public Task<int> CountAsync(ISpecification<T> specification, CancellationToken cancellationToken = default) =>
         _decorated.CountAsync(specification, cancellationToken);
+
     public Task<int> CountAsync(CancellationToken cancellationToken = default) =>
         _decorated.CountAsync(cancellationToken);
 }
