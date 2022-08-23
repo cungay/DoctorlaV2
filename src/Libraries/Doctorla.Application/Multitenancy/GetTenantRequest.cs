@@ -16,10 +16,10 @@ public class GetTenantRequestValidator : CustomValidator<GetTenantRequest>
 
 public class GetTenantRequestHandler : IRequestHandler<GetTenantRequest, TenantDto>
 {
-    private readonly ITenantService _tenantService;
+    private readonly ITenantService tenantService = null;
 
-    public GetTenantRequestHandler(ITenantService tenantService) => _tenantService = tenantService;
+    public GetTenantRequestHandler(ITenantService tenantService) => this.tenantService = tenantService;
 
     public Task<TenantDto> Handle(GetTenantRequest request, CancellationToken cancellationToken) =>
-        _tenantService.GetByIdAsync(request.TenantId);
+        this.tenantService.GetByIdAsync(request.TenantId);
 }
