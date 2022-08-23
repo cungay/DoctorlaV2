@@ -10,35 +10,35 @@ namespace Doctorla.Infrastructure.Notifications;
 [Authorize]
 public class NotificationHub : Hub, ITransientService
 {
-    private readonly ITenantInfo? _currentTenant;
-    private readonly ILogger<NotificationHub> _logger;
+    private readonly ITenantInfo? currentTenant = null;
+    private readonly ILogger<NotificationHub> logger = null;
 
     public NotificationHub(ITenantInfo? currentTenant, ILogger<NotificationHub> logger)
     {
-        _currentTenant = currentTenant;
-        _logger = logger;
+        this.currentTenant = currentTenant;
+        this.logger = logger;
     }
 
     public override async Task OnConnectedAsync()
     {
-        if (_currentTenant is null)
+        if (currentTenant is null)
         {
             throw new UnauthorizedException("Authentication Failed.");
         }
 
-        await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{_currentTenant.Id}");
+        await Groups.AddToGroupAsync(Context.ConnectionId, $"GroupTenant-{currentTenant.Id}");
 
         await base.OnConnectedAsync();
 
-        _logger.LogInformation("A client connected to NotificationHub: {connectionId}", Context.ConnectionId);
+        logger.LogInformation("A client connected to NotificationHub: {connectionId}", Context.ConnectionId);
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"GroupTenant-{_currentTenant!.Id}");
+        await Groups.RemoveFromGroupAsync(Context.ConnectionId, $"GroupTenant-{currentTenant!.Id}");
 
         await base.OnDisconnectedAsync(exception);
 
-        _logger.LogInformation("A client disconnected from NotificationHub: {connectionId}", Context.ConnectionId);
+        logger.LogInformation("A client disconnected from NotificationHub: {connectionId}", Context.ConnectionId);
     }
 }
