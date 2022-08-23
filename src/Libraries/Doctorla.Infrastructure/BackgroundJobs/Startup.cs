@@ -16,7 +16,7 @@ namespace Doctorla.Infrastructure.BackgroundJobs;
 
 internal static class Startup
 {
-    private static readonly ILogger _logger = Log.ForContext(typeof(Startup));
+    private static readonly ILogger logger = Log.ForContext(typeof(Startup));
 
     internal static IServiceCollection AddBackgroundJobs(this IServiceCollection services, IConfiguration config)
     {
@@ -28,8 +28,8 @@ internal static class Startup
 
         if (string.IsNullOrEmpty(storageSettings.StorageProvider)) throw new Exception("Hangfire Storage Provider is not configured.");
         if (string.IsNullOrEmpty(storageSettings.ConnectionString)) throw new Exception("Hangfire Storage Provider ConnectionString is not configured.");
-        _logger.Information($"Hangfire: Current Storage Provider : {storageSettings.StorageProvider}");
-        _logger.Information("For more Hangfire storage, visit https://www.hangfire.io/extensions.html");
+        logger.Information($"Hangfire: Current Storage Provider : {storageSettings.StorageProvider}");
+        logger.Information("For more Hangfire storage, visit https://www.hangfire.io/extensions.html");
 
         services.AddSingleton<JobActivator, DocJobActivator>();
 
@@ -42,15 +42,19 @@ internal static class Startup
         return services;
     }
 
-    private static IGlobalConfiguration UseDatabase(this IGlobalConfiguration hangfireConfig, string dbProvider, string connectionString, IConfiguration config) =>
+    private static IGlobalConfiguration UseDatabase(this IGlobalConfiguration hangfireConfig, string dbProvider, 
+        string connectionString, IConfiguration config) =>
         dbProvider.ToLowerInvariant() switch
         {
             DbProviderKeys.Npgsql =>
-                hangfireConfig.UsePostgreSqlStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options").Get<PostgreSqlStorageOptions>()),
+                hangfireConfig.UsePostgreSqlStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options")
+                    .Get<PostgreSqlStorageOptions>()),
             DbProviderKeys.SqlServer =>
-                hangfireConfig.UseSqlServerStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options").Get<SqlServerStorageOptions>()),
+                hangfireConfig.UseSqlServerStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options")
+                    .Get<SqlServerStorageOptions>()),
             DbProviderKeys.SqLite =>
-                hangfireConfig.UseSQLiteStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options").Get<SQLiteStorageOptions>()),
+                hangfireConfig.UseSQLiteStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options")
+                    .Get<SQLiteStorageOptions>()),
             DbProviderKeys.MySql =>
                 hangfireConfig.UseStorage(new MySqlStorage(connectionString, config.GetSection("HangfireSettings:Storage:Options").Get<MySqlStorageOptions>())),
             _ => throw new Exception($"Hangfire Storage Provider {dbProvider} is not supported.")
