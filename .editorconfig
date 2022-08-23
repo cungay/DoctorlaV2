@@ -2,3 +2,9 @@
 
 # IDE0052: Remove unread private members
 dotnet_diagnostic.IDE0052.severity = none
+
+# CA1805: Do not initialize unnecessarily
+dotnet_diagnostic.CA1805.severity = none
+
+# CS8625: Cannot convert null literal to non-nullable reference type.
+dotnet_diagnostic.CS8625.severity = none
