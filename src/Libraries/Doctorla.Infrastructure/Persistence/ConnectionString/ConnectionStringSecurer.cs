@@ -1,12 +1,11 @@
 using System.Data.SqlClient;
-using System.Runtime.InteropServices;
 using Doctorla.Application.Common.Persistence;
 using Doctorla.Infrastructure.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Options;
 using MySqlConnector;
 using Npgsql;
-//using Oracle.ManagedDataAccess.Client;
+using Oracle.ManagedDataAccess.Client;
 
 namespace Doctorla.Infrastructure.Persistence.ConnectionString;
 
@@ -36,12 +35,12 @@ public class ConnectionStringSecurer : IConnectionStringSecurer
             DbProviderKeys.SqlServer => MakeSecureSqlConnectionString(connectionString),
             DbProviderKeys.MySql => MakeSecureMySqlConnectionString(connectionString),
             DbProviderKeys.SqLite => MakeSecureSqLiteConnectionString(connectionString),
-            //DbProviderKeys.Oracle => MakeSecureOracleConnectionString(connectionString),
+            DbProviderKeys.Oracle => MakeSecureOracleConnectionString(connectionString),
             _ => connectionString
         };
     }
 
-    /*
+    
     private string MakeSecureOracleConnectionString(string connectionString)
     {
         var builder = new OracleConnectionStringBuilder(connectionString);
@@ -58,7 +57,7 @@ public class ConnectionStringSecurer : IConnectionStringSecurer
 
         return builder.ToString();
     }
-    */
+    
 
     private string MakeSecureMySqlConnectionString(string connectionString)
     {
