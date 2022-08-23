@@ -9,17 +9,17 @@ internal class InvalidateUserPermissionCacheHandler :
     IEventNotificationHandler<ApplicationUserUpdatedEvent>,
     IEventNotificationHandler<ApplicationRoleUpdatedEvent>
 {
-    private readonly IUserService _userService;
-    private readonly UserManager<ApplicationUser> _userManager;
+    private readonly IUserService userService = null;
+    private readonly UserManager<ApplicationUser> userManager = null;
 
     public InvalidateUserPermissionCacheHandler(IUserService userService, UserManager<ApplicationUser> userManager) =>
-        (_userService, _userManager) = (userService, userManager);
+        (this.userService, this.userManager) = (userService, userManager);
 
     public async Task Handle(EventNotification<ApplicationUserUpdatedEvent> notification, CancellationToken cancellationToken)
     {
         if (notification.Event.RolesUpdated)
         {
-            await _userService.InvalidatePermissionCacheAsync(notification.Event.UserId, cancellationToken);
+            await this.userService.InvalidatePermissionCacheAsync(notification.Event.UserId, cancellationToken);
         }
     }
 
@@ -27,9 +27,9 @@ internal class InvalidateUserPermissionCacheHandler :
     {
         if (notification.Event.PermissionsUpdated)
         {
-            foreach (var user in await _userManager.GetUsersInRoleAsync(notification.Event.RoleName))
+            foreach (var user in await this.userManager.GetUsersInRoleAsync(notification.Event.RoleName))
             {
-                await _userService.InvalidatePermissionCacheAsync(user.Id, cancellationToken);
+                await this.userService.InvalidatePermissionCacheAsync(user.Id, cancellationToken);
             }
         }
     }
