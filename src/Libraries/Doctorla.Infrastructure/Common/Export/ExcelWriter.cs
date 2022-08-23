@@ -10,7 +10,7 @@ public class ExcelWriter : IExcelWriter
     public Stream WriteToStream<T>(IList<T> data)
     {
         PropertyDescriptorCollection properties = TypeDescriptor.GetProperties(typeof(T));
-        DataTable table = new DataTable("table", "table");
+        DataTable table = new("table", "table");
         foreach (PropertyDescriptor prop in properties)
             table.Columns.Add(prop.Name, Nullable.GetUnderlyingType(prop.PropertyType) ?? prop.PropertyType);
         foreach (T item in data)
@@ -20,8 +20,7 @@ public class ExcelWriter : IExcelWriter
                 row[prop.Name] = prop.GetValue(item) ?? DBNull.Value;
             table.Rows.Add(row);
         }
-
-        using XLWorkbook wb = new XLWorkbook();
+        using XLWorkbook wb = new();
         wb.Worksheets.Add(table);
         Stream stream = new MemoryStream();
         wb.SaveAs(stream);
