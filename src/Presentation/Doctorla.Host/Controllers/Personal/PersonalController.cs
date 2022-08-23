@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Doctorla.Application.Auditing;
+//using Doctorla.Application.Auditing;
 using Doctorla.Application.Identity.Users;
 using Doctorla.Application.Identity.Users.Password;
 
@@ -56,10 +56,12 @@ public class PersonalController : VersionNeutralApiController
             : Ok(await _userService.GetPermissionsAsync(userId, cancellationToken));
     }
 
+    /*
     [HttpGet("logs")]
     [OpenApiOperation("Get audit logs of currently logged in user.", "")]
     public Task<List<AuditDto>> GetLogsAsync()
     {
         return Mediator.Send(new GetMyAuditLogsRequest());
     }
+    */
 }
