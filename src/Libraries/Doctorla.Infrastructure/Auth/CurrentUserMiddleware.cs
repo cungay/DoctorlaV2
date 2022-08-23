@@ -4,14 +4,14 @@ namespace Doctorla.Infrastructure.Auth;
 
 public class CurrentUserMiddleware : IMiddleware
 {
-    private readonly ICurrentUserInitializer _currentUserInitializer;
+    private readonly ICurrentUserInitializer currentUserInitializer = null;
 
     public CurrentUserMiddleware(ICurrentUserInitializer currentUserInitializer) =>
-        _currentUserInitializer = currentUserInitializer;
+        this.currentUserInitializer = currentUserInitializer;
 
     public async Task InvokeAsync(HttpContext context, RequestDelegate next)
     {
-        _currentUserInitializer.SetCurrentUser(context.User);
+        this.currentUserInitializer.SetCurrentUser(context.User);
 
         await next(context);
     }
