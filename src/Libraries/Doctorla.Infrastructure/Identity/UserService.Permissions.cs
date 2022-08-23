@@ -19,12 +19,10 @@ internal partial class UserService
             .Where(r => userRoles.Contains(r.Name))
             .ToListAsync(cancellationToken))
         {
-            /*
-            permissions.AddRange(await db.RoleClaims
+            permissions.AddRange(await _db.RoleClaims
                 .Where(rc => rc.RoleId == role.Id && rc.ClaimType == FSHClaims.Permission)
                 .Select(rc => rc.ClaimValue)
                 .ToListAsync(cancellationToken));
-            */
         }
 
         return permissions.Distinct().ToList();
