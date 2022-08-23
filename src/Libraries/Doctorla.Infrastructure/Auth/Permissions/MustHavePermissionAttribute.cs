@@ -6,5 +6,5 @@ namespace Doctorla.Infrastructure.Auth.Permissions;
 public class MustHavePermissionAttribute : AuthorizeAttribute
 {
     public MustHavePermissionAttribute(string action, string resource) =>
-        Policy = FSHPermission.NameFor(action, resource);
+        Policy = DocPermission.NameFor(action, resource);
 }
