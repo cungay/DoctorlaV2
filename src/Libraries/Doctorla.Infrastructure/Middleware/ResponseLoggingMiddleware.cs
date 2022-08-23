@@ -7,9 +7,9 @@ namespace Doctorla.Infrastructure.Middleware;
 
 public class ResponseLoggingMiddleware : IMiddleware
 {
-    private readonly ICurrentUser _currentUser;
+    private readonly ICurrentUser currentUser = null;
 
-    public ResponseLoggingMiddleware(ICurrentUser currentUser) => _currentUser = currentUser;
+    public ResponseLoggingMiddleware(ICurrentUser currentUser) => this.currentUser = currentUser;
 
     public async Task InvokeAsync(HttpContext httpContext, RequestDelegate next)
     {
@@ -28,9 +28,9 @@ public class ResponseLoggingMiddleware : IMiddleware
             responseBody = await new StreamReader(httpContext.Response.Body).ReadToEndAsync();
         }
 
-        string email = _currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
-        var userId = _currentUser.GetUserId();
-        string tenant = _currentUser.GetTenant() ?? string.Empty;
+        string email = currentUser.GetUserEmail() is string userEmail ? userEmail : "Anonymous";
+        var userId = currentUser.GetUserId();
+        string tenant = currentUser.GetTenant() ?? string.Empty;
         if (userId != Guid.Empty) LogContext.PushProperty("UserId", userId);
         LogContext.PushProperty("UserEmail", email);
         if (!string.IsNullOrEmpty(tenant)) LogContext.PushProperty("Tenant", tenant);
