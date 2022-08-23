@@ -25,17 +25,17 @@ internal partial class UserService
         string? objectId = principal.GetObjectId();
         if (string.IsNullOrWhiteSpace(objectId))
         {
-            throw new InternalServerException(_t["Invalid objectId"]);
+            throw new InternalServerException(localizer["Invalid objectId"]);
         }
 
-        var user = await _userManager.Users.Where(u => u.ObjectId == objectId).FirstOrDefaultAsync()
+        var user = await userManager.Users.Where(u => u.ObjectId == objectId).FirstOrDefaultAsync()
             ?? await CreateOrUpdateFromPrincipalAsync(principal);
 
         if (principal.FindFirstValue(ClaimTypes.Role) is string role &&
-            await _roleManager.RoleExistsAsync(role) &&
-            !await _userManager.IsInRoleAsync(user, role))
+            await roleManager.RoleExistsAsync(role) &&
+            !await userManager.IsInRoleAsync(user, role))
         {
-            await _userManager.AddToRoleAsync(user, role);
+            await userManager.AddToRoleAsync(user, role);
         }
 
         return user.Id;
@@ -47,21 +47,21 @@ internal partial class UserService
         string? username = principal.GetDisplayName();
         if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(username))
         {
-            throw new InternalServerException(string.Format(_t["Username or Email not valid."]));
+            throw new InternalServerException(string.Format(localizer["Username or Email not valid."]));
         }
 
-        var user = await _userManager.FindByNameAsync(username);
+        var user = await userManager.FindByNameAsync(username);
         if (user is not null && !string.IsNullOrWhiteSpace(user.ObjectId))
         {
-            throw new InternalServerException(string.Format(_t["Username {0} is already taken."], username));
+            throw new InternalServerException(string.Format(localizer["Username {0} is already taken."], username));
         }
 
         if (user is null)
         {
-            user = await _userManager.FindByEmailAsync(email);
+            user = await userManager.FindByEmailAsync(email);
             if (user is not null && !string.IsNullOrWhiteSpace(user.ObjectId))
             {
-                throw new InternalServerException(string.Format(_t["Email {0} is already taken."], email));
+                throw new InternalServerException(string.Format(localizer["Email {0} is already taken."], email));
             }
         }
 
@@ -69,9 +69,9 @@ internal partial class UserService
         if (user is not null)
         {
             user.ObjectId = principal.GetObjectId();
-            result = await _userManager.UpdateAsync(user);
+            result = await userManager.UpdateAsync(user);
 
-            await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
+            await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
         }
         else
         {
@@ -88,14 +88,14 @@ internal partial class UserService
                 PhoneNumberConfirmed = true,
                 IsActive = true
             };
-            result = await _userManager.CreateAsync(user);
+            result = await userManager.CreateAsync(user);
 
-            await _events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
+            await events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
         }
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Validation Errors Occurred."], result.GetErrors(_t));
+            throw new InternalServerException(localizer["Validation Errors Occurred."], result.GetErrors(localizer));
         }
 
         return user;
@@ -113,21 +113,21 @@ internal partial class UserService
             IsActive = true
         };
 
-        var result = await _userManager.CreateAsync(user, request.Password);
+        var result = await userManager.CreateAsync(user, request.Password);
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Validation Errors Occurred."], result.GetErrors(_t));
+            throw new InternalServerException(localizer["Validation Errors Occurred."], result.GetErrors(localizer));
         }
 
-        await _userManager.AddToRoleAsync(user, DocRoles.Basic);
+        await userManager.AddToRoleAsync(user, DocRoles.Basic);
 
-        var messages = new List<string> { string.Format(_t["User {0} Registered."], user.UserName) };
+        var messages = new List<string> { string.Format(localizer["User {0} Registered."], user.UserName) };
 
-        if (_securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
+        if (securitySettings.RequireConfirmedAccount && !string.IsNullOrEmpty(user.Email))
         {
             // send verification email
             string emailVerificationUri = await GetEmailVerificationUriAsync(user, origin);
-            RegisterUserEmailModel eMailModel = new RegisterUserEmailModel()
+            RegisterUserEmailModel eMailModel = new()
             {
                 Email = user.Email,
                 UserName = user.UserName,
@@ -135,52 +135,52 @@ internal partial class UserService
             };
             var mailRequest = new MailRequest(
                 new List<string> { user.Email },
-                _t["Confirm Registration"],
-                _templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
-            _jobService.Enqueue(() => _mailService.SendAsync(mailRequest, CancellationToken.None));
-            messages.Add(_t[$"Please check {user.Email} to verify your account!"]);
+                localizer["Confirm Registration"],
+                templateService.GenerateEmailTemplate("email-confirmation", eMailModel));
+            jobService.Enqueue(() => mailService.SendAsync(mailRequest, CancellationToken.None));
+            messages.Add(localizer[$"Please check {user.Email} to verify your account!"]);
         }
 
-        await _events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
+        await events.PublishAsync(new ApplicationUserCreatedEvent(user.Id));
 
         return string.Join(Environment.NewLine, messages);
     }
 
     public async Task UpdateAsync(UpdateUserRequest request, string userId)
     {
-        var user = await _userManager.FindByIdAsync(userId);
+        var user = await userManager.FindByIdAsync(userId);
 
-        _ = user ?? throw new NotFoundException(_t["User Not Found."]);
+        _ = user ?? throw new NotFoundException(localizer["User Not Found."]);
 
         string currentImage = user.ImageUrl ?? string.Empty;
         if (request.Image != null || request.DeleteCurrentImage)
         {
-            user.ImageUrl = await _fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
+            user.ImageUrl = await fileStorage.UploadAsync<ApplicationUser>(request.Image, FileType.Image);
             if (request.DeleteCurrentImage && !string.IsNullOrEmpty(currentImage))
             {
                 string root = Directory.GetCurrentDirectory();
-                _fileStorage.Remove(Path.Combine(root, currentImage));
+                fileStorage.Remove(Path.Combine(root, currentImage));
             }
         }
 
         user.FirstName = request.FirstName;
         user.LastName = request.LastName;
         user.PhoneNumber = request.PhoneNumber;
-        string phoneNumber = await _userManager.GetPhoneNumberAsync(user);
+        string phoneNumber = await userManager.GetPhoneNumberAsync(user);
         if (request.PhoneNumber != phoneNumber)
         {
-            await _userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
+            await userManager.SetPhoneNumberAsync(user, request.PhoneNumber);
         }
 
-        var result = await _userManager.UpdateAsync(user);
+        var result = await userManager.UpdateAsync(user);
 
-        await _signInManager.RefreshSignInAsync(user);
+        await signInManager.RefreshSignInAsync(user);
 
-        await _events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
+        await events.PublishAsync(new ApplicationUserUpdatedEvent(user.Id));
 
         if (!result.Succeeded)
         {
-            throw new InternalServerException(_t["Update profile failed"], result.GetErrors(_t));
+            throw new InternalServerException(localizer["Update profile failed"], result.GetErrors(localizer));
         }
     }
 }
