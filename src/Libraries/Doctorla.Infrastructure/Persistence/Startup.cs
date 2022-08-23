@@ -15,7 +15,7 @@ namespace Doctorla.Infrastructure.Persistence;
 
 internal static class Startup
 {
-    private static readonly ILogger _logger = Log.ForContext(typeof(Startup));
+    private static readonly ILogger logger = Log.ForContext(typeof(Startup));
 
     internal static IServiceCollection AddPersistence(this IServiceCollection services, IConfiguration config)
     {
@@ -23,7 +23,7 @@ internal static class Startup
             .BindConfiguration(nameof(DatabaseSettings))
             .PostConfigure(databaseSettings =>
             {
-                _logger.Information("Current DB Provider: {dbProvider}", databaseSettings.DBProvider);
+                logger.Information("Current DB Provider: {dbProvider}", databaseSettings.DBProvider);
             })
             .ValidateDataAnnotations()
             .ValidateOnStart();
@@ -39,10 +39,8 @@ internal static class Startup
             .AddTransient<ApplicationDbSeeder>()
             .AddServices(typeof(ICustomSeeder), ServiceLifetime.Transient)
             .AddTransient<CustomSeederRunner>()
-
             .AddTransient<IConnectionStringSecurer, ConnectionStringSecurer>()
             .AddTransient<IConnectionStringValidator, ConnectionStringValidator>()
-
             .AddRepositories();
     }
 
@@ -92,12 +90,12 @@ internal static class Startup
             services.AddScoped(typeof(IReadRepository<>).MakeGenericType(aggregateRootType), sp =>
                 sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)));
 
-            // Decorate the repositories with EventAddingRepositoryDecorators and expose them as IRepositoryWithEvents.
+            // Decorate the repositories with EntityRepository and expose them as IEntityRepository.
             services.AddScoped(typeof(IEntityRepository<>).MakeGenericType(aggregateRootType), sp =>
                 Activator.CreateInstance(
                     typeof(EntityRepository<>).MakeGenericType(aggregateRootType),
                     sp.GetRequiredService(typeof(IRepository<>).MakeGenericType(aggregateRootType)))
-                ?? throw new InvalidOperationException($"Couldn't create EventAddingRepositoryDecorator for aggregateRootType {aggregateRootType.Name}"));
+                ?? throw new InvalidOperationException($"Couldn't create EntityRepository for aggregateRootType {aggregateRootType.Name}"));
         }
 
         return services;
