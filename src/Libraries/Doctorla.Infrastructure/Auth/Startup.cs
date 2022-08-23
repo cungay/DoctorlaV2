@@ -1,5 +1,5 @@
 using Doctorla.Application.Common.Interfaces;
-using Doctorla.Infrastructure.Auth.AzureAd;
+//using Doctorla.Infrastructure.Auth.AzureAd;
 using Doctorla.Infrastructure.Auth.Jwt;
 using Doctorla.Infrastructure.Auth.Permissions;
 using Doctorla.Infrastructure.Identity;
@@ -20,9 +20,12 @@ internal static class Startup
             // Must add identity before adding auth!
             .AddIdentity();
         services.Configure<SecuritySettings>(config.GetSection(nameof(SecuritySettings)));
+        return services.AddJwtAuth(config);
+        /*
         return config["SecuritySettings:Provider"].Equals("AzureAd", StringComparison.OrdinalIgnoreCase)
             ? services.AddAzureAdAuth(config)
             : services.AddJwtAuth(config);
+        */
     }
 
     internal static IApplicationBuilder UseCurrentUser(this IApplicationBuilder app) =>
