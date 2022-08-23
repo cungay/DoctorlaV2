@@ -16,12 +16,12 @@ internal static class Startup
     internal static IServiceCollection AddMultitenancy(this IServiceCollection services, IConfiguration config)
     {
         return services
-            //.AddDbContext<TenantDbContext>((p, m) =>
-            //{
-            //    // TODO: We should probably add specific dbprovider/connectionstring setting for the tenantDb with a fallback to the main databasesettings
-            //    var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
-            //    m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
-            //})
+            .AddDbContext<TenantDbContext>((p, m) =>
+            {
+                // TODO: We should probably add specific dbprovider/connectionstring setting for the tenantDb with a fallback to the main databasesettings
+                var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+                m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
+            })
             .AddMultiTenant<FSHTenantInfo>()
                 .WithClaimStrategy(FSHClaims.Tenant)
                 .WithHeaderStrategy(MultitenancyConstants.TenantIdName)

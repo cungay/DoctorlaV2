@@ -1,10 +1,9 @@
 using System.Data;
-using Finbuckle.MultiTenant;
 using Doctorla.Application.Common.Events;
 using Doctorla.Application.Common.Interfaces;
 using Doctorla.Domain.Common.Contracts;
-using Doctorla.Infrastructure.Auditing;
 using Doctorla.Infrastructure.Identity;
+using Finbuckle.MultiTenant;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
@@ -31,7 +30,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
     // Used by Dapper
     public IDbConnection Connection => Database.GetDbConnection();
 
-    public DbSet<Trail> AuditTrails => Set<Trail>();
+    //public DbSet<Trail> AuditTrails => Set<Trail>();
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -64,17 +63,18 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
 
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        var auditEntries = HandleAuditingBeforeSaveChanges(_currentUser.GetUserId());
+        //var auditEntries = HandleAuditingBeforeSaveChanges(_currentUser.GetUserId());
 
         int result = await base.SaveChangesAsync(cancellationToken);
 
-        await HandleAuditingAfterSaveChangesAsync(auditEntries, cancellationToken);
+        //await HandleAuditingAfterSaveChangesAsync(auditEntries, cancellationToken);
 
         await SendDomainEventsAsync();
 
         return result;
     }
 
+    /*
     private List<AuditTrail> HandleAuditingBeforeSaveChanges(Guid userId)
     {
         foreach (var entry in ChangeTracker.Entries<IAuditableEntity>().ToList())
@@ -171,7 +171,9 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
 
         return trailEntries.Where(e => e.HasTemporaryProperties).ToList();
     }
+    */
 
+    /*
     private Task HandleAuditingAfterSaveChangesAsync(List<AuditTrail> trailEntries, CancellationToken cancellationToken = new())
     {
         if (trailEntries == null || trailEntries.Count == 0)
@@ -198,6 +200,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
 
         return SaveChangesAsync(cancellationToken);
     }
+    */
 
     private async Task SendDomainEventsAsync()
     {
