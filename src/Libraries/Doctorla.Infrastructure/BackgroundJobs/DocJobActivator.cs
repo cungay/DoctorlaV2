@@ -11,43 +11,43 @@ namespace Doctorla.Infrastructure.BackgroundJobs;
 
 public class DocJobActivator : JobActivator
 {
-    private readonly IServiceScopeFactory _scopeFactory;
+    private readonly IServiceScopeFactory scopeFactory = null;
 
     public DocJobActivator(IServiceScopeFactory scopeFactory) =>
-        _scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
+        this.scopeFactory = scopeFactory ?? throw new ArgumentNullException(nameof(scopeFactory));
 
     public override JobActivatorScope BeginScope(PerformContext context) =>
-        new Scope(context, _scopeFactory.CreateScope());
+        new Scope(context, scopeFactory.CreateScope());
 
     private class Scope : JobActivatorScope, IServiceProvider
     {
-        private readonly PerformContext _context;
-        private readonly IServiceScope _scope;
+        private readonly PerformContext context = null;
+        private readonly IServiceScope scope = null;
 
         public Scope(PerformContext context, IServiceScope scope)
         {
-            _context = context ?? throw new ArgumentNullException(nameof(context));
-            _scope = scope ?? throw new ArgumentNullException(nameof(scope));
+            this.context = context ?? throw new ArgumentNullException(nameof(context));
+            this.scope = scope ?? throw new ArgumentNullException(nameof(scope));
 
             ReceiveParameters();
         }
 
         private void ReceiveParameters()
         {
-            var tenantInfo = _context.GetJobParameter<DocTenantInfo>(MultitenancyConstants.TenantIdName);
+            var tenantInfo = context.GetJobParameter<DocTenantInfo>(MultitenancyConstants.TenantIdName);
             if (tenantInfo is not null)
             {
-                _scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor>()
+                scope.ServiceProvider.GetRequiredService<IMultiTenantContextAccessor>()
                     .MultiTenantContext = new MultiTenantContext<DocTenantInfo>
                     {
                         TenantInfo = tenantInfo
                     };
             }
 
-            string userId = _context.GetJobParameter<string>(QueryStringKeys.UserId);
+            string userId = context.GetJobParameter<string>(QueryStringKeys.UserId);
             if (!string.IsNullOrEmpty(userId))
             {
-                _scope.ServiceProvider.GetRequiredService<ICurrentUserInitializer>()
+                scope.ServiceProvider.GetRequiredService<ICurrentUserInitializer>()
                     .SetCurrentUserId(userId);
             }
         }
@@ -57,7 +57,7 @@ public class DocJobActivator : JobActivator
 
         object? IServiceProvider.GetService(Type serviceType) =>
             serviceType == typeof(PerformContext)
-                ? _context
-                : _scope.ServiceProvider.GetService(serviceType);
+                ? context
+                : scope.ServiceProvider.GetService(serviceType);
     }
 }
