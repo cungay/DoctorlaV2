@@ -6,7 +6,7 @@ using Doctorla.Infrastructure;
 using Doctorla.Infrastructure.Common;
 using Serilog;
 
-[assembly: ApiConventionType(typeof(FSHApiConventions))]
+[assembly: ApiConventionType(typeof(DocApiConventions))]
 
 StaticLogger.EnsureInitialized();
 Log.Information("Server Booting Up...");
