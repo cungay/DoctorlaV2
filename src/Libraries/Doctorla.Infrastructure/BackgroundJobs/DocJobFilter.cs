@@ -13,9 +13,9 @@ public class DocJobFilter : IClientFilter
 {
     private static readonly ILog Logger = LogProvider.GetCurrentClassLogger();
 
-    private readonly IServiceProvider _services;
+    private readonly IServiceProvider services = null;
 
-    public DocJobFilter(IServiceProvider services) => _services = services;
+    public DocJobFilter(IServiceProvider services) => this.services = services;
 
     public void OnCreating(CreatingContext context)
     {
@@ -23,7 +23,7 @@ public class DocJobFilter : IClientFilter
 
         Logger.InfoFormat("Set TenantId and UserId parameters to job {0}.{1}...", context.Job.Method.ReflectedType?.FullName, context.Job.Method.Name);
 
-        using var scope = _services.CreateScope();
+        using var scope = services.CreateScope();
 
         var httpContext = scope.ServiceProvider.GetRequiredService<IHttpContextAccessor>()?.HttpContext;
         _ = httpContext ?? throw new InvalidOperationException("Can't create a TenantJob without HttpContext.");
