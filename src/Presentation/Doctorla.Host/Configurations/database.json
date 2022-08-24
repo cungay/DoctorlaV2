@@ -1,6 +1,6 @@
 {
   "DatabaseSettings": {
     "DBProvider": "mssql",
-    "ConnectionString": "Data Source=.;Initial Catalog=DoctorlaV2_Stage;Integrated Security=True;MultipleActiveResultSets=True"
+    "ConnectionString": "Server=85.95.242.240,1435;Database=DoctorlaV2_Stage;User Id=sa;Password=Ec2jKDGJKa45;MultipleActiveResultSets=true"
   }
 }
