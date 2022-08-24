@@ -1,5 +1,6 @@
 ﻿namespace Doctorla.Application.Common.Models;
 
+/*
 public static class FilterOperator
 {
     public const string EQ = "eq";
@@ -19,6 +20,7 @@ public static class FilterLogic
     public const string OR = "or";
     public const string XOR = "xor";
 }
+*/
 
 public class Filter
 {
