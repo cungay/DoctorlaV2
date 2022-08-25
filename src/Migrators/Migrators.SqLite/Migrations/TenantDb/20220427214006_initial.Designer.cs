@@ -19,7 +19,7 @@ namespace Migrators.SqLite.Migrations.TenantDb
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.4");
 
-            modelBuilder.Entity("FSH.WebApi.Infrastructure.Multitenancy.FSHTenantInfo", b =>
+            modelBuilder.Entity("Doctorla.Infrastructure.Multitenancy.FSHTenantInfo", b =>
                 {
                     b.Property<string>("Id")
                         .HasMaxLength(64)
