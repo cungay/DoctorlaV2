@@ -10,6 +10,8 @@
     <ItemGroup>
       <Compile Remove="Catalog\Brand.cs" />
       <Compile Remove="Catalog\Product.cs" />
+      <Compile Remove="Common\Contracts\AuditableEntity.cs" />
+      <Compile Remove="Common\Contracts\IAuditableEntity.cs" />
     </ItemGroup>
     <ItemGroup>
         <PackageReference Include="NewId" Version="4.0.0-develop.44+sha.e1e1364" />
