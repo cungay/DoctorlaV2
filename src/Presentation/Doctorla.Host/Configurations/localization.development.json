@@ -1,6 +1,6 @@
 {
   "LocalizationSettings": {
-    "EnableLocalization": false,
+    "EnableLocalization": true,
     "ResourcesPath": "Localization",
     "SupportedCultures": [
       "en-US",
