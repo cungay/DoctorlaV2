@@ -16,6 +16,11 @@
       <Compile Remove="Auditing\AuditTrail.cs" />
       <Compile Remove="Auditing\Trail.cs" />
       <Compile Remove="Auditing\TrailType.cs" />
+      <Compile Remove="Identity\UserService.Confirm.cs" />
+      <Compile Remove="Identity\UserService.CreateUpdate.cs" />
+      <Compile Remove="Identity\UserService.Password.cs" />
+      <Compile Remove="Identity\UserService.Permissions.cs" />
+      <Compile Remove="Identity\UserService.Roles.cs" />
       <Compile Remove="Persistence\Configuration\Auditing.cs" />
       <Compile Remove="Persistence\Configuration\Catalog.cs" />
       <Compile Remove="Persistence\Repository\ApplicationDbRepository.cs" />

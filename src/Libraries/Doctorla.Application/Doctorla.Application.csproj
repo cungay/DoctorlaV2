@@ -18,10 +18,10 @@
       <None Remove="Dashboard\**" />
     </ItemGroup>
     <ItemGroup>
-      <Compile Remove="Common\Models\PaginationResponseExtensions.cs" />
-      <Compile Remove="Common\Persistence\IDapperRepository.cs" />
-      <Compile Remove="Common\Specification\EntitiesByPaginationFilterSpec.cs" />
-      <Compile Remove="Common\Specification\SpecificationBuilderExtensions.cs" />
+      <Compile Remove="Models\PaginationResponseExtensions.cs" />
+      <Compile Remove="Persistence\IDapperRepository.cs" />
+      <Compile Remove="Specification\EntitiesByPaginationFilterSpec.cs" />
+      <Compile Remove="Specification\SpecificationBuilderExtensions.cs" />
     </ItemGroup>
     <ItemGroup>
       <None Include="..\..\..\.editorconfig" Link=".editorconfig" />
@@ -48,5 +48,8 @@
       <Reference Include="ServiceStack.OrmLite.SqlServer.Data">
         <HintPath>..\..\..\ref\ServiceStack.OrmLite.SqlServer.Data.dll</HintPath>
       </Reference>
+    </ItemGroup>
+    <ItemGroup>
+      <Folder Include="Common\" />
     </ItemGroup>
 </Project>

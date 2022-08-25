@@ -33,7 +33,7 @@ internal static class Startup
                 options.FallBackToParentUICultures = localizationSettings.FallbackToParent ?? true;
             });
 
-            services.AddSingleton<ILocalizationFileLocationProvider, FileLocationProvider>();
+            services.AddSingleton<ILocalizationFileLocationProvider, DocPoFileLocationProvider>();
         }
 
         return services;
