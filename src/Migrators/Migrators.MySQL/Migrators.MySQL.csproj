@@ -2,8 +2,10 @@
     <PropertyGroup>
         <TargetFramework>net6.0</TargetFramework>
         <NoWarn>RCS1021;IDE0161;RCS1205</NoWarn>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
     <ItemGroup>
-        <ProjectReference Include="..\..\Infrastructure\Infrastructure.csproj" />
+      <ProjectReference Include="..\..\Libraries\Doctorla.Infrastructure\Doctorla.Infrastructure.csproj" />
     </ItemGroup>
 </Project>
