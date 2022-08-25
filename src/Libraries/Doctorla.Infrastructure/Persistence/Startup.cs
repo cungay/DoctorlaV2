@@ -4,12 +4,15 @@ using Doctorla.Infrastructure.Common;
 using Doctorla.Infrastructure.Persistence.ConnectionString;
 using Doctorla.Infrastructure.Persistence.Context;
 using Doctorla.Infrastructure.Persistence.Initialization;
+using Doctorla.Infrastructure.Persistence.Repository;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Serilog;
+using ServiceStack.Data;
+using ServiceStack.OrmLite;
 
 namespace Doctorla.Infrastructure.Persistence;
 
@@ -29,8 +32,8 @@ internal static class Startup
             .ValidateOnStart();
 
         return services
-            .AddDbContext<ApplicationDbContext>((p, m) =>
-            {
+            .AddSingleton<IDbConnectionFactory>((p) => { return p.UseOrmLite(); })
+            .AddDbContext<ApplicationDbContext>((p, m) => {
                 var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
                 m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
             })
@@ -44,37 +47,40 @@ internal static class Startup
             .AddRepositories();
     }
 
-    
+
     internal static DbContextOptionsBuilder UseDatabase(this DbContextOptionsBuilder builder, string dbProvider, string connectionString)
     {
-        switch (dbProvider.ToLowerInvariant())
+        return dbProvider.ToLowerInvariant() switch
         {
-            case DbProviderKeys.Npgsql:
-                return builder.UseNpgsql(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.PostgreSQL"));
-
-            case DbProviderKeys.SqlServer:
-                return builder.UseSqlServer(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.MSSQL"));
-
-            case DbProviderKeys.MySql:
-                return builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString), e =>
-                     e.MigrationsAssembly("Migrators.MySQL")
-                      .SchemaBehavior(MySqlSchemaBehavior.Ignore));
-
-            case DbProviderKeys.Oracle:
-                return builder.UseOracle(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.Oracle"));
-
-            case DbProviderKeys.SqLite:
-                return builder.UseSqlite(connectionString, e =>
-                     e.MigrationsAssembly("Migrators.SqLite"));
-
-            default:
-                throw new InvalidOperationException($"DB Provider {dbProvider} is not supported.");
-        }
+            DbProviderKeys.Npgsql => builder.UseNpgsql(connectionString, e => e.MigrationsAssembly("Migrators.PostgreSQL")),
+            DbProviderKeys.SqlServer => builder.UseSqlServer(connectionString, e => e.MigrationsAssembly("Migrators.MSSQL")),
+            DbProviderKeys.MySql => builder.UseMySql(connectionString, ServerVersion.AutoDetect(connectionString),
+            e => e.MigrationsAssembly("Migrators.MySQL").SchemaBehavior(MySqlSchemaBehavior.Ignore)),
+            DbProviderKeys.Oracle => builder.UseOracle(connectionString, e => e.MigrationsAssembly("Migrators.Oracle")),
+            DbProviderKeys.SqLite => builder.UseSqlite(connectionString, e => e.MigrationsAssembly("Migrators.SqLite")),
+            _ => throw new InvalidOperationException($"DB Provider {dbProvider} is not supported."),
+        };
     }
-    
+
+    internal static OrmLiteConnectionFactory UseOrmLite(this IServiceProvider serviceProvider)
+    {
+        var databaseSettings = serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+        var dbProvider = databaseSettings.DBProvider;
+        var connectionString = databaseSettings.ConnectionString;
+
+        return dbProvider.ToLowerInvariant() switch
+        {
+            DbProviderKeys.Npgsql => new OrmLiteConnectionFactory(connectionString, PostgreSqlDialect.Provider),
+            DbProviderKeys.SqlServer => new OrmLiteConnectionFactory(connectionString, SqlServer2019Dialect.Provider),
+            DbProviderKeys.MySql => new OrmLiteConnectionFactory(connectionString, MySqlDialect.Provider),
+            /*  
+            case DbProviderKeys.Oracle:
+                    return new OrmLiteConnectionFactory(connectionString, OracleDialect.Provider);
+            */
+            DbProviderKeys.SqLite => new OrmLiteConnectionFactory(connectionString, SqliteDialect.Provider),
+            _ => throw new InvalidOperationException($"DB Provider {dbProvider} is not supported."),
+        };
+    }
 
     private static IServiceCollection AddRepositories(this IServiceCollection services)
     {
