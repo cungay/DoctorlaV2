@@ -20,6 +20,7 @@
     <ItemGroup>
       <Compile Remove="Models\PaginationResponseExtensions.cs" />
       <Compile Remove="Persistence\IDapperRepository.cs" />
+      <Compile Remove="Specification\AuditableEntitiesByCreatedOnBetweenSpec.cs" />
       <Compile Remove="Specification\EntitiesByPaginationFilterSpec.cs" />
       <Compile Remove="Specification\SpecificationBuilderExtensions.cs" />
     </ItemGroup>
@@ -44,6 +45,15 @@
       </Reference>
       <Reference Include="ServiceStack.OrmLite">
         <HintPath>..\..\..\ref\ServiceStack.OrmLite.dll</HintPath>
+      </Reference>
+      <Reference Include="ServiceStack.OrmLite.MySqlConnector">
+        <HintPath>..\..\..\ref\ServiceStack.OrmLite.MySqlConnector.dll</HintPath>
+      </Reference>
+      <Reference Include="ServiceStack.OrmLite.PostgreSQL">
+        <HintPath>..\..\..\ref\ServiceStack.OrmLite.PostgreSQL.dll</HintPath>
+      </Reference>
+      <Reference Include="ServiceStack.OrmLite.Sqlite">
+        <HintPath>..\..\..\ref\ServiceStack.OrmLite.Sqlite.dll</HintPath>
       </Reference>
       <Reference Include="ServiceStack.OrmLite.SqlServer.Data">
         <HintPath>..\..\..\ref\ServiceStack.OrmLite.SqlServer.Data.dll</HintPath>

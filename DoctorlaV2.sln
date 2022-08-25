@@ -28,6 +28,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrators.MSSQL", "src\Migrators\Migrators.MSSQL\Migrators.MSSQL.csproj", "{A34F3D56-59BD-4659-AAB3-4C69358E33BE}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Migrators.MySQL", "src\Migrators\Migrators.MySQL\Migrators.MySQL.csproj", "{CC633271-8A60-4A54-B0C5-A71091E56877}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -58,6 +60,10 @@ Global
 		{A34F3D56-59BD-4659-AAB3-4C69358E33BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A34F3D56-59BD-4659-AAB3-4C69358E33BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A34F3D56-59BD-4659-AAB3-4C69358E33BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CC633271-8A60-4A54-B0C5-A71091E56877}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CC633271-8A60-4A54-B0C5-A71091E56877}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CC633271-8A60-4A54-B0C5-A71091E56877}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CC633271-8A60-4A54-B0C5-A71091E56877}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -72,6 +78,7 @@ Global
 		{192F96F0-B991-40E8-9570-1E6183DAA8C8} = {27C84EAA-9ED0-464F-81A3-6F9FC69BF779}
 		{4E062BFE-EF40-4C40-A68B-40812AE63C2E} = {C94600E8-EB79-4C7E-8CA1-4A0F7207B559}
 		{A34F3D56-59BD-4659-AAB3-4C69358E33BE} = {4E062BFE-EF40-4C40-A68B-40812AE63C2E}
+		{CC633271-8A60-4A54-B0C5-A71091E56877} = {4E062BFE-EF40-4C40-A68B-40812AE63C2E}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {A337FE73-EF6A-4C46-B625-AA111B05EFB2}

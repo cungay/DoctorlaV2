@@ -5,7 +5,7 @@ global using Doctorla.Application.FileStorage;
 global using Doctorla.Application.Interfaces;
 global using Doctorla.Application.Models;
 global using Doctorla.Application.Persistence;
-global using Doctorla.Application.Specification;
+//global using Doctorla.Application.Specification;
 global using Doctorla.Application.Validation;
 global using Doctorla.Domain.Common;
 global using Doctorla.Domain.Common.Contracts;
