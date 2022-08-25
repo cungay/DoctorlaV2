@@ -1,4 +1,4 @@
-namespace Doctorla.Application.Common.Caching;
+namespace Doctorla.Application.Caching;
 
 public static class CacheServiceExtensions
 {
