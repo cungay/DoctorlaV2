@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 using System.Text;
-using Doctorla.Application.Common.Exceptions;
+using Doctorla.Application.Exceptions;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;

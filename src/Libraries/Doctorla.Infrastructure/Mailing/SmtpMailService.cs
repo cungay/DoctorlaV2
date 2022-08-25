@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Mailing;
+using Doctorla.Application.Mailing;
 using MailKit.Net.Smtp;
 using MailKit.Security;
 using Microsoft.Extensions.Logging;

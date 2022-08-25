@@ -1,6 +1,6 @@
 using System.Net;
-using Doctorla.Application.Common.Exceptions;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Exceptions;
+using Doctorla.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Localization;
 using Serilog;

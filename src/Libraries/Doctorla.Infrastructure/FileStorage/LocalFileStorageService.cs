@@ -1,6 +1,6 @@
 using System.Runtime.InteropServices;
 using System.Text.RegularExpressions;
-using Doctorla.Application.Common.FileStorage;
+using Doctorla.Application.FileStorage;
 using Doctorla.Domain.Common;
 using Doctorla.Infrastructure.Common.Extensions;
 

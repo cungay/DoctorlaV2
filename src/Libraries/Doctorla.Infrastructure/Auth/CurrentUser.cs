@@ -1,5 +1,5 @@
 using System.Security.Claims;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 
 namespace Doctorla.Infrastructure.Auth;
 

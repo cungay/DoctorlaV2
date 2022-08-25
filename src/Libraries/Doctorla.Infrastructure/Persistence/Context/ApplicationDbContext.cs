@@ -1,5 +1,5 @@
-using Doctorla.Application.Common.Events;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Events;
+using Doctorla.Application.Interfaces;
 using Finbuckle.MultiTenant;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;

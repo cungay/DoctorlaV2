@@ -1,4 +1,4 @@
-﻿using Doctorla.Application.Common.Events;
+﻿using Doctorla.Application.Events;
 using Doctorla.Application.Identity.Users;
 using Doctorla.Domain.Identity;
 using Microsoft.AspNetCore.Identity;

@@ -1,6 +1,6 @@
 using System.Data;
-using Doctorla.Application.Common.Events;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Events;
+using Doctorla.Application.Interfaces;
 using Doctorla.Domain.Common.Contracts;
 using Doctorla.Infrastructure.Identity;
 using Finbuckle.MultiTenant;

@@ -1,5 +1,5 @@
 using System.Text;
-using Doctorla.Application.Common.Mailing;
+using Doctorla.Application.Mailing;
 using RazorEngineCore;
 
 namespace Doctorla.Infrastructure.Mailing;

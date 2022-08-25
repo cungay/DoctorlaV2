@@ -1,7 +1,7 @@
 using Finbuckle.MultiTenant;
-using Doctorla.Application.Common.Events;
-using Doctorla.Application.Common.Exceptions;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Events;
+using Doctorla.Application.Exceptions;
+using Doctorla.Application.Interfaces;
 using Doctorla.Application.Identity.Roles;
 using Doctorla.Domain.Identity;
 using Doctorla.Infrastructure.Persistence.Context;

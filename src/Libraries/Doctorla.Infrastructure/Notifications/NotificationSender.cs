@@ -1,5 +1,5 @@
 ﻿using Finbuckle.MultiTenant;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 using Doctorla.Shared.Notifications;
 using Microsoft.AspNetCore.SignalR;
 using static Doctorla.Shared.Notifications.NotificationConstants;

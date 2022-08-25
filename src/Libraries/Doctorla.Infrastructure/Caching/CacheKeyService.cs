@@ -1,5 +1,5 @@
 ﻿using Finbuckle.MultiTenant;
-using Doctorla.Application.Common.Caching;
+using Doctorla.Application.Caching;
 
 namespace Doctorla.Infrastructure.Caching;
 

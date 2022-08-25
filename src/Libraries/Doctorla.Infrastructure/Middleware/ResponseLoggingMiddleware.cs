@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 using Microsoft.AspNetCore.Http;
 using Serilog;
 using Serilog.Context;

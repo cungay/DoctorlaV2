@@ -1,6 +1,6 @@
 ﻿using Finbuckle.MultiTenant;
-using Doctorla.Application.Common.Exceptions;
-using Doctorla.Application.Common.Persistence;
+using Doctorla.Application.Exceptions;
+using Doctorla.Application.Persistence;
 using Doctorla.Application.Multitenancy;
 using Doctorla.Infrastructure.Persistence;
 using Doctorla.Infrastructure.Persistence.Initialization;

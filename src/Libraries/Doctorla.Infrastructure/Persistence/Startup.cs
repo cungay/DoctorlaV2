@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Persistence;
+using Doctorla.Application.Persistence;
 using Doctorla.Domain.Common.Contracts;
 using Doctorla.Infrastructure.Common;
 using Doctorla.Infrastructure.Persistence.ConnectionString;

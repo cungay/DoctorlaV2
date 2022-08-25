@@ -1,6 +1,6 @@
 using System.Text;
-using Doctorla.Application.Common.Caching;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Caching;
+using Doctorla.Application.Interfaces;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Logging;
 

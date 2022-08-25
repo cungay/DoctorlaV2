@@ -1,4 +1,4 @@
-﻿using Doctorla.Application.Common.Caching;
+﻿using Doctorla.Application.Caching;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 

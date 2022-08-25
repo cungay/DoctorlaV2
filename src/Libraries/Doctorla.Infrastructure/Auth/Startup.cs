@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 //using Doctorla.Infrastructure.Auth.AzureAd;
 using Doctorla.Infrastructure.Auth.Jwt;
 using Doctorla.Infrastructure.Auth.Permissions;

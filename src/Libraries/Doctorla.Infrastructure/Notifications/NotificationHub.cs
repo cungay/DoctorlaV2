@@ -1,6 +1,6 @@
 ﻿using Finbuckle.MultiTenant;
-using Doctorla.Application.Common.Exceptions;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Exceptions;
+using Doctorla.Application.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using Microsoft.Extensions.Logging;

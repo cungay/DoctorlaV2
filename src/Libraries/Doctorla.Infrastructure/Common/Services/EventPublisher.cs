@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Events;
+using Doctorla.Application.Events;
 using Doctorla.Shared.Events;
 using MediatR;
 using Microsoft.Extensions.Logging;

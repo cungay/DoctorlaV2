@@ -1,5 +1,5 @@
 using System.Linq.Expressions;
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 using Hangfire;
 
 namespace Doctorla.Infrastructure.BackgroundJobs;

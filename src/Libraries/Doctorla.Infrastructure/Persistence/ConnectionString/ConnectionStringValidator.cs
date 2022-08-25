@@ -1,4 +1,4 @@
-﻿using Doctorla.Application.Common.Persistence;
+﻿using Doctorla.Application.Persistence;
 using Doctorla.Infrastructure.Common;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Logging;

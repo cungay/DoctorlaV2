@@ -1,4 +1,4 @@
-using Doctorla.Application.Common.Interfaces;
+using Doctorla.Application.Interfaces;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using Newtonsoft.Json.Serialization;

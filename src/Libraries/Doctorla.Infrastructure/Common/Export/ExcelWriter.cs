@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel;
 using System.Data;
 using ClosedXML.Excel;
-using Doctorla.Application.Common.Exporters;
+using Doctorla.Application.Exporters;
 
 namespace Doctorla.Infrastructure.Common.Export;
 

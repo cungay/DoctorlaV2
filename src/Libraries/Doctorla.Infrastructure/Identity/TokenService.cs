@@ -2,7 +2,7 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
-using Doctorla.Application.Common.Exceptions;
+using Doctorla.Application.Exceptions;
 using Doctorla.Application.Identity.Tokens;
 using Doctorla.Infrastructure.Auth;
 using Doctorla.Infrastructure.Auth.Jwt;
