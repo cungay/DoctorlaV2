@@ -11,6 +11,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using Serilog;
+using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
 
@@ -33,8 +34,9 @@ internal static class Startup
 
         return services
             .AddSingleton<IDbConnectionFactory>((p) => { return p.UseOrmLite(); })
+            .AddSingleton<ICrudEvents>(c => new OrmLiteCrudEvents(c.Resolve<IDbConnectionFactory>()))
             .AddDbContext<ApplicationDbContext>((p, m) => {
-                var databaseSettings = p.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+                var databaseSettings = p.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseSettings>>().Value;
                 m.UseDatabase(databaseSettings.DBProvider, databaseSettings.ConnectionString);
             })
             .AddTransient<IDatabaseInitializer, DatabaseInitializer>()
