@@ -28,7 +28,7 @@ public abstract class BaseDbContext : MultiTenantIdentityDbContext<ApplicationUs
     }
 
     // Used by Dapper
-    public IDbConnection Connection => Database.GetDbConnection();
+    //public IDbConnection Connection => Database.GetDbConnection();
 
     //public DbSet<Trail> AuditTrails => Set<Trail>();
 
