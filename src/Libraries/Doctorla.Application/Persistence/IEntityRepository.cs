@@ -6,6 +6,6 @@
 /// updating or deleting them.
 /// </summary>
 public interface IEntityRepository<T> : IRepository<T>
-    where T : BaseEntity
+    where T : class, IAggregateRoot
 {
 }

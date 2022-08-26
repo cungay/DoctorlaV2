@@ -6,6 +6,12 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
     <ItemGroup>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="6.0.5">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+    <ItemGroup>
       <ProjectReference Include="..\..\Libraries\Doctorla.Infrastructure\Doctorla.Infrastructure.csproj" />
     </ItemGroup>
 </Project>

@@ -1,4 +1,4 @@
-namespace Doctorla.Domain.Common.Events;
+namespace Doctorla.Domain.Events;
 
 public static class EntityCreatedEvent
 {

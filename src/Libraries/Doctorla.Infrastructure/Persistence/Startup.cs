@@ -66,7 +66,7 @@ internal static class Startup
 
     internal static OrmLiteConnectionFactory UseOrmLite(this IServiceProvider serviceProvider)
     {
-        var databaseSettings = serviceProvider.GetRequiredService<IOptions<DatabaseSettings>>().Value;
+        var databaseSettings = serviceProvider.GetRequiredService<Microsoft.Extensions.Options.IOptions<DatabaseSettings>>().Value;
         var dbProvider = databaseSettings.DBProvider;
         var connectionString = databaseSettings.ConnectionString;
 

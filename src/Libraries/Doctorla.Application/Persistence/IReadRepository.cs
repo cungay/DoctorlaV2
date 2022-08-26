@@ -7,7 +7,7 @@
 /// </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IReadRepository<T> where T : BaseEntity
+public interface IReadRepository<T> where T : class, IAggregateRoot
 {
     /// <summary>
     /// Finds an entity with the given primary key value.

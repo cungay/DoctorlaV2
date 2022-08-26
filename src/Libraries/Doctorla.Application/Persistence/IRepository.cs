@@ -7,7 +7,7 @@
 /// </para>
 /// </summary>
 /// <typeparam name="T">The type of entity being operated on by this repository.</typeparam>
-public interface IRepository<T> : IReadRepository<T> where T : BaseEntity
+public interface IRepository<T> : IReadRepository<T> where T : class, IAggregateRoot
 {
     /// <summary>
     /// Adds an entity in the database.

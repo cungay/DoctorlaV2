@@ -7,16 +7,17 @@ using System.Data;
 namespace Doctorla.Infrastructure.Persistence.Repository;
 
 public class EntityRepository<T> : IEntityRepository<T>
-    where T : BaseEntity, IAggregateRoot
+    where T : BaseEntity<T>, IAggregateRoot
 {
     private readonly IDbConnectionFactory dbContext = null;
 
-    /// <inheritdoc/>
     public EntityRepository(IDbConnectionFactory dbContext)
     {
         this.dbContext = dbContext;
     }
 
+
+    /// <inheritdoc/>
     public virtual async Task<T> AddAsync(T entity, CancellationToken cancellationToken = default)
     {
         if (entity == null)
@@ -26,6 +27,7 @@ public class EntityRepository<T> : IEntityRepository<T>
         return entity;
     }
 
+    /// <inheritdoc/>
     public virtual async Task<IEnumerable<T>> AddRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         if (entities == null)
@@ -33,13 +35,14 @@ public class EntityRepository<T> : IEntityRepository<T>
 
         using (var db = dbContext.Open())
         {
-            using IDbTransaction dbTrans = db.OpenTransaction(System.Data.IsolationLevel.ReadCommitted);
+            using IDbTransaction dbTrans = db.OpenTransaction(IsolationLevel.ReadCommitted);
             await db.InsertAllAsync(entities, token: cancellationToken);
         }
 
         return entities;
     }
 
+    /// <inheritdoc/>
     public virtual async Task DeleteAsync(T entity, CancellationToken cancellationToken = default)
     {
         switch (entity)
@@ -57,6 +60,7 @@ public class EntityRepository<T> : IEntityRepository<T>
         }
     }
 
+    /// <inheritdoc/>
     public virtual async Task DeleteRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         if (entities == null)
@@ -84,11 +88,18 @@ public class EntityRepository<T> : IEntityRepository<T>
         }
     }
 
-    public Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
+    /// <inheritdoc/>
+    public async Task<T?> GetByIdAsync<TId>(TId id, CancellationToken cancellationToken = default) where TId : notnull
     {
-        throw new NotImplementedException();
+        if (id == null || Equals(id, default(TId)))
+            return null;
+
+        using var db = dbContext.Open();
+        var entity = await db.SingleByIdAsync<T>(id, cancellationToken);
+        return entity;
     }
 
+    /// <inheritdoc/>
     public virtual async Task UpdateAsync(T entity, CancellationToken cancellationToken = default)
     {
         if (entity == null)
@@ -98,6 +109,7 @@ public class EntityRepository<T> : IEntityRepository<T>
         await db.UpdateAsync(entity, token: cancellationToken);
     }
 
+    /// <inheritdoc/>
     public virtual async Task UpdateRangeAsync(IEnumerable<T> entities, CancellationToken cancellationToken = default)
     {
         if (entities == null)
